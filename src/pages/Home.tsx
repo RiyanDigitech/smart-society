@@ -39,7 +39,7 @@ function Home() {
             <div>Smart Fitness Starts here</div>
           </div>
         </div> */}
-        <h1 className="w-full flex items-center justify-center text-center translate-y-44 sm:translate-y-70  text-4xl sm:text-6xl">
+        <h1 className="w-full flex items-center justify-center text-center translate-y-44 sm:translate-y-70  text-4xl sm:text-5xl">
           Your Global Fitness companion
         </h1>
         <div className="w-full flex items-center justify-center text-center translate-y-54 sm:translate-y-75 text-md">
