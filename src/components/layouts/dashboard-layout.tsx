@@ -3,14 +3,15 @@ import { MdDashboard } from "react-icons/md";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { MdShoppingBag } from "react-icons/md";
 import { MdReceipt } from "react-icons/md";
+import { FaUsers } from "react-icons/fa6";
 
 import { Input, Layout, Menu, theme, Dropdown, MenuProps } from "antd";
 import {  Outlet, useLocation, useNavigate } from "react-router-dom";
 import "../../index.css";
 import tokenService from "@/services/token.service";
 const { Header, Sider, Content } = Layout;
-import { jwtDecode } from "jwt-decode";
-import dayjs from "dayjs";
+// import { jwtDecode } from "jwt-decode";
+// import dayjs from "dayjs";
 
 // const person = tokenService.getUser();
 const DashboardLayout = () => {
@@ -203,6 +204,21 @@ const DashboardLayout = () => {
                     label: <div className="text-[#0F172A]">Dashboard</div>,
                   },
                   {
+                    key: "/register-unit",
+                    icon: (
+                      <FaUsers 
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className=" text-[#0F172A]">
+                        Register Unit
+                      </div>
+                    ),
+                  },
+                  {
                     key: "/franchise-list",
                     icon: (
                       <MdShoppingBag
@@ -317,6 +333,21 @@ const DashboardLayout = () => {
                     ),
                     label: (
                       <div className="text-[#0F172A]">Lead Management</div>
+                    ),
+                  },
+                   {
+                    key: "/register-unit",
+                    icon: (
+                      <FaUsers 
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className=" text-[#0F172A]">
+                        Register Unit
+                      </div>
                     ),
                   },
                   // {

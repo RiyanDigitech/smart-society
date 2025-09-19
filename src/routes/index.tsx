@@ -1,34 +1,26 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Navigate } from "react-router-dom";
 import Home from "@/pages/Home";
 import DashboardLayout from "@/components/layouts/dashboard-layout";
-import DashboardPage from "@/pages/Home";
+import LoginPage from "@/pages/Auth/LoginPage";
+import PublicRoute from "./PublicRoutes";
+import ProtectedRoute from "./ProtectedRoutes";
+import RegisterUnitTable from "@/pages/RegisterUnitPages/RegisterUnitTable";
 
-// import AddressAutocomplete from "@/pages/location";
 
 const router = createBrowserRouter([
-  // {
-  //   path: "/",
-  //   element: <Home />,
-  //   index: true,
-  // },
-  // {
-    // element: <ProtectedRoute roleAllowed={["Admin", "Franchise"]} />,
-    // children: [
-      
-     
-     
-    // ],
-  // },
+
+  {
+    path:"/login",
+    element:(<PublicRoute><LoginPage /></PublicRoute>)
+  },
+  
   {
 children: [
       {
-        element: <DashboardLayout />,
+        element: (<ProtectedRoute><DashboardLayout /></ProtectedRoute>),
         children: [
           { path: "/", element: <Home /> },
-
-          // { path: "/franchise-list", element: <FranchiseList /> },
-          // { path: "/lead-list", element: <LeadList /> },
+          { path: "/register-unit", element: <RegisterUnitTable /> },
         ],
       },
     ],
