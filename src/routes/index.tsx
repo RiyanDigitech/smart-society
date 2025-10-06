@@ -5,6 +5,9 @@ import LoginPage from "@/pages/Auth/LoginPage";
 import PublicRoute from "./PublicRoutes";
 import ProtectedRoute from "./ProtectedRoutes";
 import RegisterUnitTable from "@/pages/RegisterUnitPages/RegisterUnitTable";
+import VisitorTable from "@/pages/Visitors/VisitorTable";
+import StaffTable from "@/pages/Staff/StaffTable";
+import EmergencyTable from "@/pages/Emergency/EmergencyTable";
 
 
 const router = createBrowserRouter([
@@ -21,6 +24,10 @@ children: [
         children: [
           { path: "/", element: <Home /> },
           { path: "/register-unit", element: <RegisterUnitTable /> },
+          { path: "/visitors", element: <VisitorTable /> },
+          { path: "/staff", element: <StaffTable /> },
+          { path: "/emergency", element: <EmergencyTable /> },
+
         ],
       },
     ],

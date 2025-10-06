@@ -152,7 +152,7 @@ const DashboardLayout = () => {
             position: "fixed",
             left: 0,
             background: colorPrimary,
-            zIndex: 1000,
+            zIndex: 10,
           }}
           collapsible
         >
@@ -347,6 +347,51 @@ const DashboardLayout = () => {
                     label: (
                       <div className=" text-[#0F172A]">
                         Register Unit
+                      </div>
+                    ),
+                  },
+                   {
+                    key: "/visitors",
+                    icon: (
+                      <MdReceipt
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className=" text-[#0F172A]">
+                        Visitors
+                      </div>
+                    ),
+                  },
+                   {
+                    key: "/staff",
+                    icon: (
+                      <MdReceipt
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className=" text-[#0F172A]">
+                        Staff
+                      </div>
+                    ),
+                  },
+                   {
+                    key: "/emergency",
+                    icon: (
+                      <MdReceipt
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className=" text-[#0F172A]">
+                        Emergency
                       </div>
                     ),
                   },

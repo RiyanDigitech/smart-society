@@ -170,3 +170,7 @@ ul.ant-menu-vertical > li.ant-menu-item-only-child {
 /* body{
   background-color: #0c0d0c;
 } */
+
+.ant-spin .ant-spin-dot-item {
+  background-color: #45b369 !important; 
+}
