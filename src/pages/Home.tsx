@@ -1,11 +1,14 @@
-import { Input, DatePicker, Button, Table, Card, Spin } from "antd";
-import { LoadingOutlined, EyeOutlined, DownloadOutlined } from "@ant-design/icons";
+import { Input, DatePicker, Button, Table, Card, Spin, Menu, Dropdown, message } from "antd";
+import { LoadingOutlined, EyeOutlined, DownloadOutlined, EllipsisOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
 import { useState } from "react";
 import dayjs from "dayjs";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import MaintenanceService from "@/services/maintainance-service/MaintainanceService";
+import MaintenanceService, { deleteMaintenance } from "@/services/maintainance-service/MaintainanceService";
+import MaintenanceCreate from "@/components/MaintenanceComponents/MaintenanceCreate";
+import { MdPassword } from "react-icons/md";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const { RangePicker } = DatePicker;
 
@@ -19,6 +22,7 @@ interface DataType {
   totalAmount: string;
   maintenancestatus: string;
   unitNo: number;
+  createdAt: string;
 }
 
 const Home = () => {
@@ -27,6 +31,8 @@ const Home = () => {
   // local states
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
+  const [createMaintenanceModal, setCreateMaintenanceModal] = useState(false);
+  const [maintenanceData, setMaintenanceData] = useState({});
   const [search, setSearch] = useState<string>();
   const [dates, setDates] = useState<[string?, string?]>();
 
@@ -43,11 +49,14 @@ const Home = () => {
     data?.data?.maintenace?.map((item: any, idx: number) => ({
       key: String(item.id || idx),
       purpose: item.purpose,
+      id: item.id,
+      payslip: item.payslip,
       amount: item.amount,
       payAmount: item.payAmount,
       totalAmount: item.totalAmount,
       maintenancestatus: item.maintenancestatus,
       unitNo: item.registerUnit?.unitNo,
+      createdAt: item?.createdAt,
     })) || [];
 
   const columns: ColumnsType<DataType> = [
@@ -58,10 +67,54 @@ const Home = () => {
     { title: "Status", dataIndex: "maintenancestatus", key: "maintenancestatus" },
     { title: "Unit No", dataIndex: "unitNo", key: "unitNo" },
     {
-      title: "Action",
-      key: "action",
-      render: () => <Button type="link" icon={<EyeOutlined />} />,
+      title: "Created At", dataIndex: "createdAt", key: "createdAt", render: (text) => {
+        const date = new Date(text);
+        return date.toLocaleString("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      },
     },
+    
+     {
+          title: 'Action',
+          key: 'action',
+          render: (record: any) => {
+            const menu = (
+              <Menu>
+                {/* <Menu.Item
+                  key="edit"
+                  icon={<EditOutlined />}
+                  onClick={() => handleEditModal(record)}
+                >
+                  Edit
+                </Menu.Item> */}
+                <Menu.Item
+                  key="delete"
+                  icon={<EyeOutlined />}
+                  onClick={() => handleSubmit(record)}
+                >
+                  View More
+                </Menu.Item>
+                <Menu.Item
+                  key="password"
+                  icon={<DeleteOutlined />}
+                  onClick={() => handleChangePassword.mutate(record.id)}
+                >
+                 Delete
+                </Menu.Item>
+              </Menu>
+            );
+            return (
+              <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+                <EllipsisOutlined style={{ fontSize: 20, cursor: 'pointer' }} />
+              </Dropdown>
+            );
+          },
+        },
   ];
 
   // 🔽 PDF Download Function
@@ -85,6 +138,24 @@ const Home = () => {
 
     doc.save("maintenance-report.pdf");
   };
+
+  const queryClient = useQueryClient();
+  const handleChangePassword = useMutation({
+     mutationFn: deleteMaintenance,
+         onSuccess: (res: any) => {
+              queryClient.invalidateQueries({ queryKey: ["maintenance"] });
+              message.success(res.message || "Delete Maintenance Successfully!");
+              
+            },
+            onError: () => {},
+  })
+
+
+  const handleSubmit = (record: any) => {
+    setCreateMaintenanceModal(true)
+    setMaintenanceData(record)
+    // console.log(record , "MID")
+  }
 
   return (
     <div className="p-6">
@@ -119,6 +190,11 @@ const Home = () => {
             />
           </div>
           <div className="flex flex-wrap gap-2">
+            {/* <Button 
+            onClick={}
+            className="w-full bg-green-800 hover:!bg-green-600 text-white md:w-auto">
+              Create Maintenance
+            </Button> */}
             <Button className="w-full bg-green-800 hover:!bg-green-600 text-white md:w-auto">
               Set Amount
             </Button>
@@ -157,6 +233,9 @@ const Home = () => {
           />
         )}
       </Card>
+
+      <MaintenanceCreate createMaintenanceModal={createMaintenanceModal}
+        onClose={() => setCreateMaintenanceModal(false)} maintenanceData={maintenanceData} />
     </div>
   );
 };

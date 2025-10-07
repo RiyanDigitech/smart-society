@@ -1,11 +1,14 @@
+
 import { message } from "antd";
 import axios from "../../lib/config/axios-instance";
+import { buildUrlWithParams } from "@/lib/helpers";
 
 export const getAllRegisterUsers = async () => {
   try {
-    const response = await axios.get("/register-unit" , {
-      params:{role : "User"}
-    });
+    const url = buildUrlWithParams("/register-unit" , {
+    role : "User"
+    })
+    const response = await axios.get(url);
 
     if (response.status === 200) {
       return response.data; 
@@ -20,7 +23,9 @@ export const getAllRegisterUsers = async () => {
 
 export const getAllRegisterUsersbyId = async (id:any) => {
   try {
-    const response = await axios.get(`/register-unit/${id}`);
+
+    const url = buildUrlWithParams(`/register-unit/${id}` , {})
+    const response = await axios.get(url);
 
     if (response.status === 200) {
       return response.data; 

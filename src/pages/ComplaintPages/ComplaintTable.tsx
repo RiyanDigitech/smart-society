@@ -104,13 +104,13 @@ function ComplaintTable() {
       render: (record: any) => {
         const menu = (
           <Menu>
-            {/* <Menu.Item
+            <Menu.Item
               key="edit"
               icon={<EditOutlined />}
               onClick={() => handleEditModal(record)}
             >
               Edit
-            </Menu.Item> */}
+            </Menu.Item>
             <Menu.Item
               key="view-more"
               icon={<EyeOutlined />}
@@ -118,13 +118,13 @@ function ComplaintTable() {
             >
               View More
             </Menu.Item>
-            {/* <Menu.Item
+            <Menu.Item
               key="delete"
               icon={<DeleteOutlined />}
               onClick={() => handleDelete(record)}
             >
               Delete
-            </Menu.Item> */}
+            </Menu.Item>
 
           </Menu>
         );
