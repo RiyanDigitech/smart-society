@@ -322,19 +322,19 @@ const DashboardLayout = () => {
                     label: <div className="text-[#0F172A]">Dashboard</div>,
                   },
 
-                  {
-                    key: "/lead",
-                    icon: (
-                      <MdReceipt
-                        className={`${
-                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
-                        }`}
-                      />
-                    ),
-                    label: (
-                      <div className="text-[#0F172A]">Lead Management</div>
-                    ),
-                  },
+                  // {
+                  //   key: "/lead",
+                  //   icon: (
+                  //     <MdReceipt
+                  //       className={`${
+                  //         collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                  //       }`}
+                  //     />
+                  //   ),
+                  //   label: (
+                  //     <div className="text-[#0F172A]">Lead Management</div>
+                  //   ),
+                  // },
                    {
                     key: "/complaint",
                     icon: (
@@ -410,6 +410,37 @@ const DashboardLayout = () => {
                       </div>
                     ),
                   },
+                   {
+                    key: "/vehicle",
+                    icon: (
+                      <MdReceipt
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className=" text-[#0F172A]">
+                        Vehicle
+                      </div>
+                    ),
+                  },
+
+                         {
+                    key: "/annoucement",
+                    icon: (
+                      <MdReceipt
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className="text-[#0F172A]">Annoucement</div>
+                    ),
+                  },
+
+
                   // {
                   //   key: "/complaint-list",
                   //   icon: (

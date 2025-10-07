@@ -135,6 +135,7 @@ const AddStaff = ({ isOpen, onClose }: StaffModalProps) => {
                 onChange={(e) => setGender(e.target.value)}
                 className="flex-1 outline-none bg-transparent"
               >
+                <option value="">Select Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
@@ -159,7 +160,22 @@ const AddStaff = ({ isOpen, onClose }: StaffModalProps) => {
           <input
             type="text"
             value={cnic}
-            onChange={(e) => setCnic(e.target.value)}
+            onChange={(e) => {
+              let input = e.target.value.replace(/\D/g, "");
+              if (input.length > 13) input = input.slice(0, 13);
+              const formatted = input.replace(
+                /^(\d{5})(\d{0,7})?(\d{0,1})?$/,
+                (match, p1, p2, p3) => {
+                  let result = p1;
+                  if (p2) result += "-" + p2;
+                  if (p3) result += "-" + p3;
+                  return result;
+                }
+              );
+
+              setCnic(formatted);
+            }}
+            //onChange={(e) => setCnic(e.target.value)}
             placeholder="Enter Cnic"
             className="w-full border rounded-lg p-2 text-sm text-gray-700 bg-white shadow-sm outline-none resize-none"
           />
