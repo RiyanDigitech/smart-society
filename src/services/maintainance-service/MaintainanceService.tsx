@@ -40,3 +40,27 @@ const MaintenanceService = () => {
 };
 
 export default MaintenanceService;
+
+
+export const updateMaintenanceFunc = async (data:any) => {
+  try {
+    const response = await axios.post(`/maintenance/pay-amount` , data);
+    if (response.status === 200) {
+      return response.data; 
+    }
+  } catch (error: any) {
+    throw error
+  }
+};
+
+export const deleteMaintenance = async (id:any) => {
+  try {
+    const response = await axios.delete(`/maintenance/${id}`);
+
+    if (response.status === 200) {
+      return response.data; 
+    }
+  } catch (error: any) {
+    throw error
+  }
+};

@@ -1,9 +1,11 @@
 import { message } from "antd";
 import axios from "../../lib/config/axios-instance";
+import { buildUrlWithParams } from "@/lib/helpers";
 
 export const getAllComplaints = async () => {
   try {
-    const response = await axios.get("/complaint/get-all-complaints");
+    const url = buildUrlWithParams("/complaint/get-all-complaints" , {})
+    const response = await axios.get(url);
 
     if (response.status === 200) {
       return response.data; 
@@ -52,7 +54,8 @@ export const updateComplaintFunc = async ({id , values}:any) => {
 
 export const getComplaintbyId = async (id:any) => {
   try {
-    const response = await axios.get(`/complaint/get-complaint-by-id/${id}`);
+    const url = buildUrlWithParams(`/complaint/get-complaint-by-id/${id}` , {})
+    const response = await axios.get(url);
 
     if (response.status === 200) {
       return response.data; 
