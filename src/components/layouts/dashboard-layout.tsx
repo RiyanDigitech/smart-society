@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { MdDashboard } from "react-icons/md";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { MdShoppingBag } from "react-icons/md";
 import { MdReceipt } from "react-icons/md";
 import { FaUsers } from "react-icons/fa6";
@@ -90,7 +90,7 @@ const DashboardLayout = () => {
   const handleButtonClick = () => {
     navigate("/account-details");
   };
-  console.log(see, collapsed);
+  // console.log(see, collapsed);
  
   const items: MenuProps["items"] = [
     {
@@ -336,6 +336,21 @@ const DashboardLayout = () => {
                     ),
                   },
                    {
+                    key: "/complaint",
+                    icon: (
+                      <QuestionCircleOutlined 
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className=" text-[#0F172A]">
+                       Complaint
+                      </div>
+                    ),
+                  },
+                   {
                     key: "/register-unit",
                     icon: (
                       <FaUsers 
@@ -511,11 +526,11 @@ const DashboardLayout = () => {
               {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             </button>
             <div className=" w-full flex justify-end items-center sm:justify-between">
-              <div className="font-DMSans text-[#0F172A] font-bold text-lg max-sm:hidden">
+              {/* <div className="font-DMSans text-[#0F172A] font-bold text-lg max-sm:hidden">
                 {currentPage === "Lead" ? "Lead List" : currentPage}
-              </div>
+              </div> */}
               <div className=" w-8/12 sm:w-3/12 lg:w-80 flex items-center justify-between">
-                {currentPage !== "Account Details" ? (
+                {/* {currentPage !== "Account Details" ? (
                   <>
                     {" "}
                     <div
@@ -535,9 +550,11 @@ const DashboardLayout = () => {
                   </>
                 ) : (
                   ""
-                )}
+                )} */}
 
-                <Dropdown className=" " menu={{ items }} placement="top" arrow>
+               
+              </div>
+               <Dropdown className=" " menu={{ items }} placement="top" arrow>
                   <div className="flex items-center cursor-pointer">
                     <div>
                       <img
@@ -559,7 +576,6 @@ const DashboardLayout = () => {
                     </div>
                   </div>
                 </Dropdown>
-              </div>
             </div>
           </Header>
           <Content
