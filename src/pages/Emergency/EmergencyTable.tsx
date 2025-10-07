@@ -4,31 +4,32 @@ import type { ColumnsType } from "antd/es/table";
 import { DeleteOutlined, EditOutlined, MoreOutlined, PlusOutlined } from "@ant-design/icons";
 import { EmergencyData } from "@/lib/types/emergency";
 import EmergencyService from "@/services/EmergencyService/EmergencyService";
+import AddEmergency from "./AddEmergency";
+import UpdateEmergency from "./UpdateEmergency";
 
 
-//import AddStaff from "./AddStaff";
-//import UpdateStaff from "./UpdateStaff";
+
 
 const EmergencyTable: React.FC = () => {
-  //const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(5);
-  //const [deletingId, setDeletingId] = useState(null);
-  //const [OpenEdit, setOpenEditodal] = useState(false);
-  //const [recordId, setrecordId] = useState("");
+  //const [currentPage, setCurrentPage] = useState<number>(1);
+  //const [pageSize, setPageSize] = useState<number>(5);
+  const [deletingId, setDeletingId] = useState(null);
+  const [OpenEdit, setOpenEditodal] = useState(false);
+  const [recordId, setrecordId] = useState("");
  
   
-  const { useFetchEmergency} = EmergencyService();
-  //const { useDeleteStaffById } = StaffService();
-  //const deleteMutation = useDeleteStaffById();
+  const { useFetchEmergency,useDeleteEmergencyById} = EmergencyService();
+  
+  const deleteMutation = useDeleteEmergencyById();
 
-  const handleTableChange = (pagination: any) => {
-    setCurrentPage(pagination.current);
-    setPageSize(pagination.pageSize);
-  };
+  // const handleTableChange = (pagination: any) => {
+  //   setCurrentPage(pagination.current);
+  //   setPageSize(pagination.pageSize);
+  // };
 
- const { data, isFetching } = useFetchEmergency(currentPage, pageSize);
+ const { data, isFetching } = useFetchEmergency();
  console.log("emergencydata",data)
 
 
@@ -49,31 +50,31 @@ const EmergencyTable: React.FC = () => {
     })) || [];
 
   
-//     const showDeleteConfirm = (id: number) => {
-//   Modal.confirm({
-//     title: "Are you sure you want to Delete this Staff?",
+    const showDeleteConfirm = (id: number) => {
+  Modal.confirm({
+    title: "Are you sure you want to Delete this Emergency?",
     
-//     okText: "Yes",
-//     okType: "danger",
-//     cancelText: "No",
-//     onOk() {
-//       setDeletingId(id); 
-//       handleDelete(id);  
-//     },
-//     onCancel() {
-//       setDeletingId(null); 
-//     },
-//   });
-// };
+    okText: "Yes",
+    okType: "danger",
+    cancelText: "No",
+    onOk() {
+      setDeletingId(id); 
+      handleDelete(id);  
+    },
+    onCancel() {
+      setDeletingId(null); 
+    },
+  });
+};
 
 
-//   const handleDelete = (id: number) => {
-//     deleteMutation.mutate(id);
-//   };
-//   const handleEdit = (record: any) => {
-//     setOpenEditodal(true);
-//     setrecordId(record);
-//   };
+  const handleDelete = (id: number) => {
+    deleteMutation.mutate(id);
+  };
+  const handleEdit = (record: any) => {
+    setOpenEditodal(true);
+    setrecordId(record);
+  };
 
 
   const columns: ColumnsType<EmergencyData> = [
@@ -91,7 +92,7 @@ const EmergencyTable: React.FC = () => {
       render: (name) => <span className="text-[#4b5563] ">{name}</span>,
     },
     {
-      title: "Helpline_no",
+      title: "Helpline No",
       dataIndex: "helpline_no",
       key: "helpline_no",
       render: (helpline_no) => <span className="text-[#4b5563] ">{helpline_no}</span>,
@@ -126,7 +127,7 @@ const EmergencyTable: React.FC = () => {
               <Menu.Item
                 key="edit"
                 icon={<EditOutlined />}
-                //onClick={() => handleEdit(record)}
+                onClick={() => handleEdit(record)}
               >
                 Edit
               </Menu.Item>
@@ -134,13 +135,13 @@ const EmergencyTable: React.FC = () => {
                 key="delete"
                 icon={<DeleteOutlined />}
                 danger
-                //onClick= {()=>showDeleteConfirm(Number(record.id))}
-                //disabled={deletingId === record.id && deleteMutation.isLoading}
+                onClick= {()=>showDeleteConfirm(Number(record.id))}
+                disabled={deletingId === record.id && deleteMutation.isLoading}
               >
-                Delete
-                {/* {deletingId === record.id && deleteMutation.isLoading
+                
+               {deletingId === record.id && deleteMutation.isLoading
                   ? "Deleting..."
-                  : "Delete"} */}
+                  : "Delete"}
               </Menu.Item>
             </Menu>
           }
@@ -162,16 +163,16 @@ const EmergencyTable: React.FC = () => {
            
           </div>
           <button
-            //onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsModalOpen(true)}
             className="bg-primary text-[16px] text-white px-3 py-1 rounded-lg shadow hover:bg-primary w-full md:w-auto my-auto"
           >
             <PlusOutlined className="mr-1 text-backgroundPrimary text-[16px] my-auto" />
             Add Emergency
           </button>
-          {/* <AddStaff
+          <AddEmergency
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
-          /> */}
+          />
         </div>
       </div>
       <Spin
@@ -182,23 +183,23 @@ const EmergencyTable: React.FC = () => {
           columns={columns}
           dataSource={formattedData}
           pagination={{
-            current: currentPage,
-            pageSize: pageSize,
+            //current: currentPage,
+            //pageSize: pageSize,
             total: data?.total || 0,
 
             showTotal: (total, range) =>
               `Showing ${range[0]} to ${range[1]} of ${total} entries`,
           }}
-          onChange={handleTableChange}
+          //onChange={handleTableChange}
           bordered={false}
           className="custom-table overflow-auto [&_.ant-pagination-item]:!border-gray-300 [&_.ant-pagination-item]:!text-gray-600 [&_.ant-pagination-item-active]:!bg-primary [&_.ant-pagination-item-active>a]:!text-white [&_.ant-pagination-prev]:!text-[#45B369] [&_.ant-pagination-next]:!text-[#EBECEF]"
         />
       </Spin>
-      {/* <UpdateStaff
+      <UpdateEmergency
         open={OpenEdit}
         userData={recordId}
         onClose={() => setOpenEditodal(false)}
-      /> */}
+      />
     </div>
   );
 };
