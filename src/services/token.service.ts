@@ -47,7 +47,7 @@ class TokenService {
     const token = Cookies.get(cookieAuth);
 
     if (!token) {
-      console.error("Token not found in cookies.");
+      // console.error("Token not found in cookies.");
       return null;
     }
 
