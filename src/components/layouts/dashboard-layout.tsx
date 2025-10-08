@@ -413,7 +413,15 @@ const DashboardLayout = () => {
                    {
                     key: "/expenses",
                     icon: (
-                      <MoneyCollectFilled
+                      <MoneyCollectFilled  />
+                    ),
+                    label: (
+                      <div className=" text-[#0F172A]">
+                        Expenses
+                      </div>
+                    ),
+                  },
+                  {
                     key: "/vehicle",
                     icon: (
                       <MdReceipt
@@ -424,11 +432,6 @@ const DashboardLayout = () => {
                     ),
                     label: (
                       <div className=" text-[#0F172A]">
-                        Expenses
-                      </div>
-                    ),
-                  },
-
                         Vehicle
                       </div>
                     ),
