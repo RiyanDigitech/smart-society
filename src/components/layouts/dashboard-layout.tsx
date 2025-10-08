@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { MdDashboard } from "react-icons/md";
-import { MenuFoldOutlined, MenuUnfoldOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined, MoneyCollectFilled, QuestionCircleOutlined } from "@ant-design/icons";
 import { MdShoppingBag } from "react-icons/md";
 import { MdReceipt } from "react-icons/md";
 import { FaUsers } from "react-icons/fa6";
@@ -411,6 +411,9 @@ const DashboardLayout = () => {
                     ),
                   },
                    {
+                    key: "/expenses",
+                    icon: (
+                      <MoneyCollectFilled
                     key: "/vehicle",
                     icon: (
                       <MdReceipt
@@ -421,6 +424,11 @@ const DashboardLayout = () => {
                     ),
                     label: (
                       <div className=" text-[#0F172A]">
+                        Expenses
+                      </div>
+                    ),
+                  },
+
                         Vehicle
                       </div>
                     ),
@@ -439,6 +447,7 @@ const DashboardLayout = () => {
                       <div className="text-[#0F172A]">Annoucement</div>
                     ),
                   },
+
 
 
                   // {
