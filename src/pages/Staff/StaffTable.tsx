@@ -198,7 +198,7 @@ const StaffTable: React.FC = () => {
           pagination={{
             current: currentPage,
             pageSize: pageSize,
-            total: data?.total || 0,
+            //total: data?.total || 0,
 
             showTotal: (total, range) =>
               `Showing ${range[0]} to ${range[1]} of ${total} entries`,

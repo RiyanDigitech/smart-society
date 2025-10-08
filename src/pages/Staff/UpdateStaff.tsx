@@ -97,17 +97,36 @@ const UpdateStaff = ({ open, onClose, userData }: UpdateStaffModalProps) => {
           <Input
             type="text"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+                const value = e.target.value;
+                // Capitalize first letter of each word
+                const formatted = value.replace(/\b\w/g, (char) =>
+                  char.toUpperCase()
+                );
+                setName(formatted);
+              }}
+            //onChange={(e) => setName(e.target.value)}
             className="flex-1 !border-[#D1D5DB] hover:!border-[#D1D5DB]"
           />
         </div>
         <div>
           <label className="block text-gray-600 mb-1">Gender</label>
-          <Input
+          <div className="flex items-center border rounded-md px-3 py-2 text-sm gap-2">
+            <select
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              className="flex-1 outline-none bg-transparent"
+            >
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          {/* <Input
             value={gender}
             onChange={(e) => setGender(e.target.value)}
             className="flex-1 !border-[#D1D5DB] hover:!border-[#D1D5DB]"
-          />
+          /> */}
         </div>
 
         <div>
@@ -134,7 +153,15 @@ const UpdateStaff = ({ open, onClose, userData }: UpdateStaffModalProps) => {
           <Input
             type="text"
             value={address}
-            onChange={(e) => setAddress(e.target.value)}
+             onChange={(e) => {
+                const value = e.target.value;
+                // Capitalize first letter of each word
+                const formatted = value.replace(/\b\w/g, (char) =>
+                  char.toUpperCase()
+                );
+                setAddress(formatted);
+              }}
+            //onChange={(e) => setAddress(e.target.value)}
             className="flex-1 !border-[#D1D5DB] hover:!border-[#D1D5DB]"
           />
         </div>
@@ -143,7 +170,15 @@ const UpdateStaff = ({ open, onClose, userData }: UpdateStaffModalProps) => {
           <Input
             type="text"
             value={designation}
-            onChange={(e) => setDesignation(e.target.value)}
+             onChange={(e) => {
+                const value = e.target.value;
+                // Capitalize first letter of each word
+                const formatted = value.replace(/\b\w/g, (char) =>
+                  char.toUpperCase()
+                );
+                setDesignation(formatted);
+              }}
+            //onChange={(e) => setDesignation(e.target.value)}
             className="flex-1 !border-[#D1D5DB] hover:!border-[#D1D5DB]"
           />
         </div>

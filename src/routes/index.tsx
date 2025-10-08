@@ -15,6 +15,9 @@ import ComplaintTable from "@/pages/ComplaintPages/ComplaintTable";
 import ComplaintDetailPage from "@/pages/ComplaintPages/ComplaintDetailPage";
 import Expense from "@/pages/expense/Expense";
 
+import VehicleTable from "@/pages/Vehicle/VehicleTable";
+import AnnoucementTable from "@/pages/Annoucement/AnnoucementTable";
+
 
 
 const router = createBrowserRouter([
@@ -35,6 +38,8 @@ children: [
           { path: "/visitors", element: <VisitorTable /> },
           { path: "/staff", element: <StaffTable /> },
           { path: "/emergency", element: <EmergencyTable /> },
+          { path: "/vehicle", element: <VehicleTable /> },
+          { path: "/annoucement", element: <AnnoucementTable /> },
 
 
           { path: "/register-unit-detail/:id", element: <RegisterUnitDetailPage /> },

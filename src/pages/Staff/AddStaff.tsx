@@ -105,15 +105,22 @@ const AddStaff = ({ isOpen, onClose }: StaffModalProps) => {
     >
       <form onSubmit={handleSubmit(onSubmit)} className=" w-full lg:max-w-4xl">
         <div className=" mt-6">
-       
-
           <div className="space-y-2 font-poppins">
             <label className="text-[16px] font-semibold ">Name</label>
             <div className="flex items-center border rounded-md px-3 py-2">
               <input
                 type="text"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                //onChange={(e) => setName(e.target.value)}
+
+                onChange={(e) => {
+                  const value = e.target.value;
+                  // Capitalize first letter of each word
+                  const formatted = value.replace(/\b\w/g, (char) =>
+                    char.toUpperCase()
+                  );
+                  setName(formatted);
+                }}
                 placeholder="Enter Name"
                 className="flex-1 outline-none text-sm"
               />
@@ -121,39 +128,26 @@ const AddStaff = ({ isOpen, onClose }: StaffModalProps) => {
           </div>
 
           <div className="space-y-2 font-poppins">
-  <label className="text-[16px] font-semibold">Gender</label>
-  <div className="flex items-center border rounded-md px-3 py-2 text-sm gap-2">
-    <select
-      value={gender}
-      onChange={(e) => setGender(e.target.value)}
-      className="flex-1 outline-none bg-transparent"
-    >
-      <option value="Male">Male</option>
-      <option value="Female">Female</option>
-      <option value="Other">Other</option>
-    </select>
-  </div>
-</div>
-
-
-          {/* <div className="space-y-2 font-poppins">
             <label className="text-[16px] font-semibold">Gender</label>
             <div className="flex items-center border rounded-md px-3 py-2 text-sm gap-2">
-              <input
-                type="text"
+              <select
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
-                placeholder="Enter Gender"
-                className="flex-1 outline-none"
-              />
+                className="flex-1 outline-none bg-transparent"
+              >
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
             </div>
-          </div> */}
+          </div>
         </div>
 
         <div className="mt-2 space-y-2 font-poppins">
           <label className="block text-[16px] font-semibold mb-1">Phone</label>
           <input
-            type="text"
+            type="number"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             placeholder="Enter Phone No"
@@ -166,7 +160,22 @@ const AddStaff = ({ isOpen, onClose }: StaffModalProps) => {
           <input
             type="text"
             value={cnic}
-            onChange={(e) => setCnic(e.target.value)}
+            onChange={(e) => {
+              let input = e.target.value.replace(/\D/g, "");
+              if (input.length > 13) input = input.slice(0, 13);
+              const formatted = input.replace(
+                /^(\d{5})(\d{0,7})?(\d{0,1})?$/,
+                (match, p1, p2, p3) => {
+                  let result = p1;
+                  if (p2) result += "-" + p2;
+                  if (p3) result += "-" + p3;
+                  return result;
+                }
+              );
+
+              setCnic(formatted);
+            }}
+            //onChange={(e) => setCnic(e.target.value)}
             placeholder="Enter Cnic"
             className="w-full border rounded-lg p-2 text-sm text-gray-700 bg-white shadow-sm outline-none resize-none"
           />
@@ -180,7 +189,15 @@ const AddStaff = ({ isOpen, onClose }: StaffModalProps) => {
               placeholder="Enter Address"
               className="flex-1 outline-none"
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                // Capitalize first letter of each word
+                const formatted = value.replace(/\b\w/g, (char) =>
+                  char.toUpperCase()
+                );
+                setAddress(formatted);
+              }}
+              //onChange={(e) => setAddress(e.target.value)}
             />
           </div>
         </div>
@@ -193,7 +210,15 @@ const AddStaff = ({ isOpen, onClose }: StaffModalProps) => {
               placeholder="Enter Designation"
               className="flex-1 outline-none"
               value={designation}
-              onChange={(e) => setDesignation(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                // Capitalize first letter of each word
+                const formatted = value.replace(/\b\w/g, (char) =>
+                  char.toUpperCase()
+                );
+                setDesignation(formatted);
+              }}
+              //onChange={(e) => setDesignation(e.target.value)}
             />
           </div>
         </div>
