@@ -183,8 +183,8 @@ const EmergencyTable: React.FC = () => {
           columns={columns}
           dataSource={formattedData}
           pagination={{
-            //current: currentPage,
-            //pageSize: pageSize,
+            // current: currentPage,
+            // pageSize: pageSize,
             total: data?.total || 0,
 
             showTotal: (total, range) =>

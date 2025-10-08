@@ -13,6 +13,8 @@ import EmergencyTable from "@/pages/Emergency/EmergencyTable";
 import RegisterUnitDetailPage from "@/pages/RegisterUnitPages/RegisterUnitDetailPage";
 import ComplaintTable from "@/pages/ComplaintPages/ComplaintTable";
 import ComplaintDetailPage from "@/pages/ComplaintPages/ComplaintDetailPage";
+import VehicleTable from "@/pages/Vehicle/VehicleTable";
+import AnnoucementTable from "@/pages/Annoucement/AnnoucementTable";
 
 
 
@@ -34,6 +36,8 @@ children: [
           { path: "/visitors", element: <VisitorTable /> },
           { path: "/staff", element: <StaffTable /> },
           { path: "/emergency", element: <EmergencyTable /> },
+          { path: "/vehicle", element: <VehicleTable /> },
+          { path: "/annoucement", element: <AnnoucementTable /> },
 
 
           { path: "/register-unit-detail/:id", element: <RegisterUnitDetailPage /> },
