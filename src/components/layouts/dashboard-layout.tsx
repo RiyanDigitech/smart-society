@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { MdDashboard } from "react-icons/md";
-import { MenuFoldOutlined, MenuUnfoldOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { MenuFoldOutlined, MenuUnfoldOutlined, MoneyCollectFilled, QuestionCircleOutlined } from "@ant-design/icons";
 import { MdShoppingBag } from "react-icons/md";
 import { MdReceipt } from "react-icons/md";
 import { FaUsers } from "react-icons/fa6";
@@ -309,19 +309,6 @@ const DashboardLayout = () => {
                     ),
                     label: <div className="text-[#0F172A]">Dashboard</div>,
                   },
-
-                  // {
-                  //   key: "/lead",
-                  //   icon: (
-                  //     <MdReceipt
-                  //       className={`${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
-                  //         }`}
-                  //     />
-                  //   ),
-                  //   label: (
-                  //     <div className="text-[#0F172A]">Lead Management</div>
-                  //   ),
-                  // },
                   {
                     key: "/complaint",
                     icon: (
@@ -335,9 +322,11 @@ const DashboardLayout = () => {
                         Complaint
                       </div>
                     ),
-                  },
-                  {
-                    key: "/register-unit",
+                  },               
+
+                   {
+                   key: "/register-unit",
+
                     icon: (
                       <FaUsers
                         className={`${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
@@ -406,6 +395,49 @@ const DashboardLayout = () => {
                       </div>
                     ),
                   },
+                   {
+                    key: "/expenses",
+                    icon: (
+                      <MoneyCollectFilled  />
+                    ),
+                    label: (
+                      <div className=" text-[#0F172A]">
+                        Expenses
+                      </div>
+                    ),
+                  },
+                  {
+                    key: "/vehicle",
+                    icon: (
+                      <MdReceipt
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className=" text-[#0F172A]">
+                        Vehicle
+                      </div>
+                    ),
+                  },
+
+                         {
+                    key: "/annoucement",
+                    icon: (
+                      <MdReceipt
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className="text-[#0F172A]">Annoucement</div>
+                    ),
+                  },
+
+
+
                   // {
                   //   key: "/complaint-list",
                   //   icon: (

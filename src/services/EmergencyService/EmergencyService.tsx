@@ -12,9 +12,9 @@ import { message, notification } from "antd";
 }
 
 const EmergencyService = () => {
-  const useFetchEmergency = (page?: number, lastPage?: number) => {
+  const useFetchEmergency = (page?: number, pageSize?: number) => {
     async function fetchEmergency(): Promise<EmergencyListResponse> {
-      const url = buildUrlWithParams("/emergency", { page, lastPage });
+      const url = buildUrlWithParams("/emergency", { page, pageSize });
       return axios.get(url).then((res) => {
         const result = res.data.data;
         return {
@@ -27,7 +27,7 @@ const EmergencyService = () => {
     }
 
     return useQuery({
-      queryKey: ["emergency", page, lastPage],
+      queryKey: ["emergency", page, pageSize],
       queryFn: fetchEmergency,
       retry: 0,
       refetchOnWindowFocus: false,
