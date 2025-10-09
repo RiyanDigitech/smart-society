@@ -450,7 +450,7 @@ const DashboardLayout = () => {
                       <div className="text-[#0F172A]">Annoucement</div>
                     ),
                   },
-                         {
+                  {
                     key: "/renovation",
                     icon: (
                       <HomeOutlined  
@@ -461,6 +461,19 @@ const DashboardLayout = () => {
                     ),
                     label: (
                       <div className="text-[#0F172A]">Renovation</div>
+                    ),
+                  },
+                  {
+                    key: "/domesticstaff",
+                    icon: (
+                      <HomeOutlined  
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className="text-[#0F172A]">Domestic Staff</div>
                     ),
                   },
 

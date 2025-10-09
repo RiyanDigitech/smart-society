@@ -1,25 +1,20 @@
 import React, { useState } from "react";
 import { Table, Spin, Dropdown, Menu, Modal } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import {  DeleteOutlined, EyeOutlined, MoreOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EyeOutlined, MoreOutlined } from "@ant-design/icons";
 import { RenovationData } from "@/lib/types/renovation";
 import RenovationService from "@/services/RenovationService/RenovationService";
 import AddRenovation from "./AddRenovation";
 
-
-
 const RenovationTable: React.FC = () => {
-  //const [isModalOpen, setIsModalOpen] = useState(false);
-
   //const [currentPage, setCurrentPage] = useState<number>(1);
   //const [pageSize, setPageSize] = useState<number>(5);
   const [deletingId, setDeletingId] = useState(null);
   const [OpenEdit, setOpenEditodal] = useState(false);
   const [recordId, setrecordId] = useState("");
- 
-  
-  const { useFetchRenovation,useDeleteRenovationById} = RenovationService();
-  
+
+  const { useFetchRenovation, useDeleteRenovationById } = RenovationService();
+
   const deleteMutation = useDeleteRenovationById();
 
   // const handleTableChange = (pagination: any) => {
@@ -27,13 +22,10 @@ const RenovationTable: React.FC = () => {
   //   setPageSize(pagination.pageSize);
   // };
 
- const { data, isFetching } = useFetchRenovation();
- console.log("RenovationData",data)
-
+  const { data, isFetching } = useFetchRenovation();
+  console.log("RenovationData", data);
 
   console.log(data);
-
-
 
   const formattedData: RenovationData[] =
     data?.data?.allRenovationForms?.map((item, index) => ({
@@ -44,38 +36,32 @@ const RenovationTable: React.FC = () => {
       detailsWork: item.detailsWork,
       startDate: item.startDate,
       endDate: item.endDate,
-      status:item.status,
-      contractorName:item.contractorName,
-      contractorNumber:item.contractorNumber,
-      signature:item.signature,
-      renovationStatus:item.renovationStatus,
-      personName:item.personName,
-      personNumber:item.personNumber,
-      userId:item.userId
-    
-
-
-
+      status: item.status,
+      contractorName: item.contractorName,
+      contractorNumber: item.contractorNumber,
+      signature: item.signature,
+      renovationStatus: item.renovationStatus,
+      personName: item.personName,
+      personNumber: item.personNumber,
+      userId: item.userId,
     })) || [];
 
-  
-    const showDeleteConfirm = (id: number) => {
-  Modal.confirm({
-    title: "Are you sure you want to Delete this Renovation?",
-    
-    okText: "Yes",
-    okType: "danger",
-    cancelText: "No",
-    onOk() {
-      setDeletingId(id); 
-      handleDelete(id);  
-    },
-    onCancel() {
-      setDeletingId(null); 
-    },
-  });
-};
+  const showDeleteConfirm = (id: number) => {
+    Modal.confirm({
+      title: "Are you sure you want to Delete this Renovation?",
 
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        setDeletingId(id);
+        handleDelete(id);
+      },
+      onCancel() {
+        setDeletingId(null);
+      },
+    });
+  };
 
   const handleDelete = (id: number) => {
     deleteMutation.mutate(id);
@@ -83,9 +69,8 @@ const RenovationTable: React.FC = () => {
 
   const handleEdit = (record: any) => {
     setOpenEditodal(true);
-    setrecordId(record);
+    setrecordId(record.id);
   };
-
 
   const columns: ColumnsType<RenovationData> = [
     {
@@ -99,7 +84,9 @@ const RenovationTable: React.FC = () => {
       title: "ApplicantName",
       dataIndex: "applicantName",
       key: "applicantName",
-      render: (applicantName) => <span className="text-[#4b5563] ">{applicantName}</span>,
+      render: (applicantName) => (
+        <span className="text-[#4b5563] ">{applicantName}</span>
+      ),
     },
     {
       title: "Block",
@@ -111,13 +98,17 @@ const RenovationTable: React.FC = () => {
       title: "DetailsWork",
       dataIndex: "detailsWork",
       key: "detailsWork",
-      render: (detailsWork) => <span className="text-[#4b5563] ">{detailsWork}</span>,
+      render: (detailsWork) => (
+        <span className="text-[#4b5563] ">{detailsWork}</span>
+      ),
     },
     {
       title: "StartDate",
       dataIndex: "startDate",
       key: "startDate",
-      render: (startDate) => <span className="text-[#4b5563] ">{startDate}</span>,
+      render: (startDate) => (
+        <span className="text-[#4b5563] ">{startDate}</span>
+      ),
     },
     {
       title: "EndDate",
@@ -129,19 +120,25 @@ const RenovationTable: React.FC = () => {
       title: "ContractorName",
       dataIndex: "contractorName",
       key: "contractorName",
-      render: (contractorName) => <span className="text-[#4b5563] ">{contractorName}</span>,
+      render: (contractorName) => (
+        <span className="text-[#4b5563] ">{contractorName}</span>
+      ),
     },
     {
       title: "ContractorNumber",
       dataIndex: "contractorNumber",
       key: "contractorNumber",
-      render: (contractorNumber) => <span className="text-[#4b5563] ">{contractorNumber}</span>,
+      render: (contractorNumber) => (
+        <span className="text-[#4b5563] ">{contractorNumber}</span>
+      ),
     },
     {
       title: "RenovationStatus",
       dataIndex: "renovationStatus",
       key: "renovationStatus",
-      render: (renovationStatus) => <span className="text-[#4b5563] ">{renovationStatus}</span>,
+      render: (renovationStatus) => (
+        <span className="text-[#4b5563] ">{renovationStatus}</span>
+      ),
     },
     {
       title: "UserId",
@@ -150,18 +147,22 @@ const RenovationTable: React.FC = () => {
       width: 70,
       render: (userId) => <span className="text-[#4b5563] ">{userId}</span>,
     },
-  
+
     {
       title: "PersonName",
       dataIndex: "personName",
       key: "personName",
-      render: (personName) => <span className="text-[#4b5563] ">{personName}</span>,
+      render: (personName) => (
+        <span className="text-[#4b5563] ">{personName}</span>
+      ),
     },
     {
       title: "PersonNumber",
       dataIndex: "personNumber",
       key: "personNumber",
-      render: (personNumber) => <span className="text-[#4b5563] ">{personNumber}</span>,
+      render: (personNumber) => (
+        <span className="text-[#4b5563] ">{personNumber}</span>
+      ),
     },
     {
       title: "Status",
@@ -187,11 +188,10 @@ const RenovationTable: React.FC = () => {
                 key="delete"
                 icon={<DeleteOutlined />}
                 danger
-                onClick= {()=>showDeleteConfirm(Number(record.id))}
+                onClick={() => showDeleteConfirm(Number(record.id))}
                 disabled={deletingId === record.id && deleteMutation.isLoading}
               >
-                
-               {deletingId === record.id && deleteMutation.isLoading
+                {deletingId === record.id && deleteMutation.isLoading
                   ? "Deleting..."
                   : "Delete"}
               </Menu.Item>
@@ -203,28 +203,13 @@ const RenovationTable: React.FC = () => {
         </Dropdown>
       ),
     },
-    
   ];
 
   return (
     <div className="p-4 bg-white rounded-[10px]">
-     
       <div className="flex flex-col md:flex-row md:items-center  gap-3 mb-4  justify-end">
         <div className="flex items-center gap-2 ">
-          <div className=" ">
-           
-          </div>
-          {/* <button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-primary text-[16px] text-white px-3 py-1 rounded-lg shadow hover:bg-primary w-full md:w-auto my-auto"
-          >
-            <PlusOutlined className="mr-1 text-backgroundPrimary text-[16px] my-auto" />
-            Add Renovation
-          </button>
-         <AddRenovation
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-          /> */}
+          <div className=" "></div>
         </div>
       </div>
       <Spin
@@ -234,14 +219,15 @@ const RenovationTable: React.FC = () => {
         <Table
           columns={columns}
           dataSource={formattedData}
-          pagination={{
-            // current: currentPage,
-            // pageSize: pageSize,
-            //total: data?.total || 0,
+          pagination={false}
+          // pagination={{
+          //   // current: currentPage,
+          //   // pageSize: pageSize,
+          //   //total: data?.total || 0,
 
-             showTotal: (total, range) =>
-               `Showing ${range[0]} to ${range[1]} of ${total} entries`,
-          }}
+          //    showTotal: (total, range) =>
+          //      `Showing ${range[0]} to ${range[1]} of ${total} entries`,
+          // }}
           //onChange={handleTableChange}
           bordered={false}
           className="custom-table overflow-auto [&_.ant-pagination-item]:!border-gray-300 [&_.ant-pagination-item]:!text-gray-600 [&_.ant-pagination-item-active]:!bg-primary [&_.ant-pagination-item-active>a]:!text-white [&_.ant-pagination-prev]:!text-[#45B369] [&_.ant-pagination-next]:!text-[#EBECEF]"
@@ -249,13 +235,9 @@ const RenovationTable: React.FC = () => {
       </Spin>
       <AddRenovation
         isOpen={OpenEdit}
-        userData={recordId}
+        renovationId={recordId}
         onClose={() => setOpenEditodal(false)}
       />
-       {/* <AddRenovation
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-          /> */}
     </div>
   );
 };

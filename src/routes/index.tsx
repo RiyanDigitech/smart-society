@@ -18,6 +18,7 @@ import Expense from "@/pages/expense/Expense";
 import VehicleTable from "@/pages/Vehicle/VehicleTable";
 import AnnoucementTable from "@/pages/Annoucement/AnnoucementTable";
 import RenovationTable from "@/pages/Renovation/RenovationTable";
+import DomesticStaffTable from "@/pages/DomesticStaff/DomesticStaffTable";
 
 
 
@@ -42,6 +43,7 @@ children: [
           { path: "/vehicle", element: <VehicleTable /> },
           { path: "/annoucement", element: <AnnoucementTable /> },
           { path: "/renovation", element: <RenovationTable /> },
+          { path: "/domesticstaff", element: <DomesticStaffTable /> },
 
 
           { path: "/register-unit-detail/:id", element: <RegisterUnitDetailPage /> },

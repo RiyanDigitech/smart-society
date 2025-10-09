@@ -12,8 +12,8 @@ interface RenovationListResponse {
 }
 
 const RenovationService = () => {
-
-  const useFetchRenovation = (page?: number,pageSize?: number) => {
+  
+  const useFetchRenovation = (page?: number, pageSize?: number) => {
     async function fetchRenovation(): Promise<RenovationListResponse> {
       const url = buildUrlWithParams("/renovation", { page, pageSize });
       return axios.get(url).then((res) => {
@@ -36,31 +36,48 @@ const RenovationService = () => {
   };
 
   const useDeleteRenovationById = () => {
-      const queryClient = useQueryClient();
-  
-      return useMutation({
-        mutationFn: async (id: number) => {
-          const response = await axios.delete(`/renovation/${id}`);
-          return response.data;
-        },
-        onSuccess: () => {
-          message.success("Renovation form deactivated successfully");
-          queryClient.invalidateQueries({ queryKey: ["renovation"] });
-        },
-        onError: (error: any) => {
-          const message =
-            error?.response?.data?.message || "Failed to Delete Renovation";
-          notification.error({ message });
-        },
-      });
-    };
+    const queryClient = useQueryClient();
 
- 
+    return useMutation({
+      mutationFn: async (id: number) => {
+        const response = await axios.delete(`/renovation/${id}`);
+        return response.data;
+      },
+      onSuccess: () => {
+        message.success("Renovation form deactivated successfully");
+        queryClient.invalidateQueries({ queryKey: ["renovation"] });
+      },
+      onError: (error: any) => {
+        const message =
+          error?.response?.data?.message || "Failed to Delete Renovation";
+        notification.error({ message });
+      },
+    });
+  };
+
+  const useCreateRenovation = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: async (payload: {
+        charges: number;
+        remarks: string;
+        renovationId: number;
+        approvedBy: string;
+      }) => {
+        const res = await axios.post(`/renovation/status`, payload);
+        return res.data;
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["renovation"] });
+      },
+    });
+  };
 
   return {
     useFetchRenovation,
-    useDeleteRenovationById
-  
+    useDeleteRenovationById,
+    useCreateRenovation,
   };
 };
 
