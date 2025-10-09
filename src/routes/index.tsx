@@ -13,6 +13,7 @@ import EmergencyTable from "@/pages/Emergency/EmergencyTable";
 import RegisterUnitDetailPage from "@/pages/RegisterUnitPages/RegisterUnitDetailPage";
 import ComplaintTable from "@/pages/ComplaintPages/ComplaintTable";
 import ComplaintDetailPage from "@/pages/ComplaintPages/ComplaintDetailPage";
+import SupplementaryTable from "@/pages/Supplementary/SupplementaryTable";
 
 
 
@@ -34,6 +35,7 @@ children: [
           { path: "/visitors", element: <VisitorTable /> },
           { path: "/staff", element: <StaffTable /> },
           { path: "/emergency", element: <EmergencyTable /> },
+          { path: "/supplementary", element: <SupplementaryTable /> },
 
 
           { path: "/register-unit-detail/:id", element: <RegisterUnitDetailPage /> },
