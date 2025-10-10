@@ -1,28 +1,24 @@
 import { Form, Modal, Select, Button } from "antd";
-import { useParams } from "react-router";
 
 const { Option } = Select;
 
 interface Props {
     isOpen: boolean;
     onClose: () => void;
-    setSpeakerId: (value: number | undefined) => void;
-    setStatus: (value: string | undefined) => void;
+    setFilterStatus: (value: string | undefined) => void;
 }
 
 const FiltersModal: React.FC<Props> = ({
     isOpen,
     onClose,
-    setSpeakerId,
-    setStatus,
+    setFilterStatus,
 }) => {
     const [form] = Form.useForm();
 
 
     const handleApplyFilter = () => {
         form.validateFields().then((values) => {
-            setSpeakerId(values?.speaker_id || undefined);
-            setStatus(values?.status || undefined);
+            setFilterStatus(values?.status || undefined);
             onClose();
         });
     };
@@ -30,9 +26,7 @@ const FiltersModal: React.FC<Props> = ({
 
     const handleReset = () => {
         form.resetFields();
-        // Reset all filters in parent component
-        setSpeakerId(undefined);
-        setStatus(undefined);
+        setFilterStatus(undefined);
     };
 
     return (

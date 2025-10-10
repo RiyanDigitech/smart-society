@@ -1,14 +1,17 @@
 import { Dropdown, Menu, Spin, Table, Tag } from 'antd';
-import { EllipsisOutlined, EditOutlined, DeleteOutlined, LoadingOutlined, EyeOutlined } from '@ant-design/icons';
-import { useQuery } from '@tanstack/react-query';
+import { EllipsisOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getAllRegisterUsers } from '@/services/RegisterUnitServices/RegisterUnitServic';
-import { useEffect, useState } from 'react';
-import AddRegisterUnit from './AddRegisterUnit';
-import { MdDetails, MdPassword } from 'react-icons/md';
+import { useState } from 'react';
+import { MdPassword } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
-import EditRegisterUnitModal from './EditRegiserUnit';
-import ChangePasswordModal from './ChangePasswordModal';
 import dayjs from 'dayjs';
+
+import { lazy, Suspense } from 'react'
+
+const AddRegisterUnit = lazy(() => import('./AddRegisterUnit'))
+const EditRegisterUnitModal = lazy(() => import('./EditRegiserUnit'))
+const ChangePasswordModal = lazy(() => import('./ChangePasswordModal'))
 
 function RegisterUnitTable() {
 
@@ -115,13 +118,13 @@ function RegisterUnitTable() {
   ];
   // React Query
   const { data, isLoading } = useQuery({
-    queryKey: ['register' ],
+    queryKey: ['register'],
     queryFn: getAllRegisterUsers,
+    placeholderData: keepPreviousData,
+    staleTime: 5000
   });
-  const antIcon = (
-    <LoadingOutlined style={{ fontSize: 40, color: "#16a34a" }} spin />
-  );
-  // Prepare Table Data
+
+
   const tableData =
     data?.data?.register_unit?.map((item: any, index: any) => ({
       key: String(index),
@@ -138,7 +141,7 @@ function RegisterUnitTable() {
 
     })) || [];
 
-    
+
   const handleViewDetails = (record: any) => {
     console.log(record.id)
     naviagte(`/register-unit-detail/${record.id}`)
@@ -168,26 +171,33 @@ function RegisterUnitTable() {
         tip="Loading..."
         className="text-green-600"
         size="large"
-        indicator={antIcon} // custom spinner
+      // indicator={antIcon} // custom spinner
       >
         <Table
           className="custom-table overflow-auto [&_.ant-pagination-item]:!border-gray-300 [&_.ant-pagination-item]:!text-gray-600 [&_.ant-pagination-item-active]:!bg-[#EBECEF] [&_.ant-pagination-item-active]:!text-white [&_.ant-pagination-prev]:!text-[#45B369] [&_.ant-pagination-next]:!text-[#EBECEF]"
-          loading={isLoading}
           columns={columns}
           dataSource={tableData}
           pagination={false}
         />
       </Spin>
 
-      {/* Add Register Unit Modal */}
-      <AddRegisterUnit postModalOpen={postModalOpen}
-        onClose={() => setPostModalOpen(false)} />
-      {/* Edit Register Unit Modal */}
-      <EditRegisterUnitModal registerId={registerId} putModalOpen={putModalOpen}
-        onClose={() => setputModalOpen(false)} />
-      {/* Change Register User Password Modal */}
-      <ChangePasswordModal registerId={registerId} changePasswordModal={changePasswordModal}
-        onClose={() => setChangePasswordModal(false)} />
+      <Suspense>
+        {/* Add Register Unit Modal */}
+        {postModalOpen && (
+          <AddRegisterUnit postModalOpen={postModalOpen}
+            onClose={() => setPostModalOpen(false)} />
+        )}
+        {/* Edit Register Unit Modal */}
+        {putModalOpen && (<EditRegisterUnitModal registerId={registerId} putModalOpen={putModalOpen}
+          onClose={() => setputModalOpen(false)} />
+        )}
+        {/* Change Register User Password Modal */}
+        {changePasswordModal && (
+          <ChangePasswordModal registerId={registerId} changePasswordModal={changePasswordModal}
+            onClose={() => setChangePasswordModal(false)} />
+        )}
+
+      </Suspense>
     </div>
   );
 }

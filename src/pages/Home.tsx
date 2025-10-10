@@ -154,7 +154,6 @@ const Home = () => {
   const handleSubmit = (record: any) => {
     setCreateMaintenanceModal(true)
     setMaintenanceData(record)
-    // console.log(record , "MID")
   }
 
   return (

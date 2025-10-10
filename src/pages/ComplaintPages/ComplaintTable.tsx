@@ -1,22 +1,27 @@
 import { useState } from 'react';
-import { Dropdown, Input, Menu, message, Spin, Table, Tag, InputNumber } from 'antd';
-import { EllipsisOutlined, EditOutlined, LoadingOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Dropdown, Input, Menu, message, Spin, Table, Tag } from 'antd';
+import { EllipsisOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { getAllComplaints } from '@/services/ComplaintServices/ComplaintServices';
-import AddComplaint from './AddComplaint';
 import { deleteComplaint } from '../../services/ComplaintServices/ComplaintServices';
-import EditComplaintModal from './EditComplaintModal';
 import SvgFilter from '@/components/common/FilterButton';
-import FiltersModal from './FiltersModal';
+
+// Lazy Loading fro Better Performance
+import { lazy, Suspense } from 'react';
+const AddComplaint = lazy(() => import('./AddComplaint'));
+const EditComplaintModal = lazy(() => import('./EditComplaintModal'));
+const FiltersModal = lazy(() => import('./FiltersModal'));
 
 function ComplaintTable() {
-  
+
   const [postModalOpen, setPostModalOpen] = useState(false);
   const [putModalOpen, setputModalOpen] = useState(false);
   const [registerId, setRegisterId] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [filterStatusSet, setFilterStatus] = useState("")
+  const [search, setSearch] = useState(null)
 
   const naviagte = useNavigate()
   const columns = [
@@ -27,10 +32,16 @@ function ComplaintTable() {
       render: (text: any) => <a>{text}</a>,
     },
     {
-      title: 'description',
+      title: 'Description',
       dataIndex: 'description',
       key: 'description',
+      render: (text) => {
+        if (!text) return '-';
+        const words = text.split(' ');
+        return words.length > 6 ? words.slice(0, 6).join(' ') + '...' : text;
+      },
     },
+
     {
       title: 'unitNo',
       dataIndex: 'unitNo',
@@ -137,19 +148,14 @@ function ComplaintTable() {
     },
   ];
 
-
-  const ShowFilterModal = () => {
-    setIsFilterModalOpen(true)
-  }
   // React Query
   const { data, isLoading } = useQuery({
-    queryKey: ['complaint'],
-    queryFn: getAllComplaints,
+    queryKey: ['complaint', filterStatusSet, search],
+    queryFn: () => getAllComplaints(filterStatusSet, search),
+    placeholderData: keepPreviousData,
+    staleTime: 5000,
   });
-  const antIcon = (
-    <LoadingOutlined style={{ fontSize: 40, color: "#16a34a" }} spin />
-  );
-  // Prepare Table Data
+
   const tableData =
     data?.data?.complaints?.map((item: any, index: any) => ({
       key: String(index),
@@ -167,10 +173,13 @@ function ComplaintTable() {
 
     })) || [];
 
-
   const handleEditModal = (record: any) => {
     setRegisterId(record.id)
     setputModalOpen(true)
+  }
+
+  const ShowFilterModal = () => {
+    setIsFilterModalOpen(true)
   }
 
   const handleDelete = (record: any) => {
@@ -200,70 +209,88 @@ function ComplaintTable() {
   })
 
   return (
-    <div className="p-8 bg-white">
+    <div className="p-4 sm:p-6 md:p-8 bg-white w-full">
 
+      {/* 🔍 Search & Filter Section */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-3">
 
-      <div className='flex justify-start gap-6 p-3'>
-        <h2 className='mt-2 underline'>Search by Apartment No :</h2>
-        <InputNumber type='number'
-          maxLength={4}
-          // placeholder='123'
-          onKeyPress={(e) => {
-            if (e.target.value.length >= 4) {
-              e.preventDefault();
-            }
-          }}
-          className='border-gray-200 hover:border-green-600' />
-      
-       <div>
-                    <button
-                      onClick={() => ShowFilterModal()}
-                      className="hidden xmd:flex  items-center justify-center border-[2px] border-[#edf2ef] rounded-lg px-2 py-2 bg-[#fafafa] text-[#1F53A4] font-medium xmd:px-4 xmd:py-3 lg:py-2  lg:w-[8vw] "
-                    >
-                      <div style={{ fontSize: "22px", color: "#6B6B6B" }}>
-                        <SvgFilter />
-                      </div>
-                      <span className="text-[#6B6B6B] pl-2 font-semibold">Filters</span>
-                    </button>
-                  </div>
+        {/* Search Input */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full sm:w-auto">
+          <h2 className="underline font-semibold text-base sm:text-lg whitespace-nowrap">
+            Search by Apartment No:
+          </h2>
+
+          <Input
+            type="text"
+            maxLength={4}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.target.value.length >= 4) {
+                e.preventDefault();
+              }
+            }}
+            className="border-gray-300 hover:border-green-600 w-full sm:w-40 md:w-56"
+          />
+        </div>
+
+        {/* Filter Button */}
+        <div className="flex justify-end">
+          <button
+            onClick={() => ShowFilterModal()}
+            className="flex items-center justify-center border-2 border-[#edf2ef] rounded-lg px-3 py-2 bg-[#fafafa] text-[#1F53A4] font-medium hover:bg-gray-100 transition-all duration-200 w-full sm:w-auto"
+          >
+            <div style={{ fontSize: "22px", color: "#6B6B6B" }}>
+              <SvgFilter />
+            </div>
+            <span className="text-[#6B6B6B] pl-2 font-semibold text-sm sm:text-base">Filters</span>
+          </button>
+        </div>
       </div>
-      <div className='flex justify-between p-3'>
-        <h2 className='underline font-semibold text-2xl'>Complaint</h2>
-        <button className='font-bold active:scale-110 bg-green-600 text-white rounded p-2'
+
+      {/* 🧾 Title & Create Button */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 gap-3">
+        <h2 className="underline font-semibold text-xl sm:text-2xl">Complaint</h2>
+        <button
+          className="font-bold bg-green-600 text-white rounded px-4 py-2 hover:bg-green-700 transition active:scale-105 w-full sm:w-auto"
           onClick={() => setPostModalOpen(true)}
-        >Create Complaint</button>
+        >
+          Create Complaint
+        </button>
       </div>
 
+      {/* 📋 Table Section */}
+      <div className="overflow-x-auto">
+        <Spin
+          spinning={isLoading}
+          tip="Loading..."
+          className="text-green-600"
+          size="large"
+        // indicator={antIcon}
+        >
+          <Table
+            className="custom-table min-w-full text-sm [&_.ant-pagination-item]:!border-gray-300 [&_.ant-pagination-item]:!text-gray-600 [&_.ant-pagination-item-active]:!bg-[#45B369] [&_.ant-pagination-item-active]:!text-white"
+            columns={columns}
+            dataSource={tableData}
+            pagination={false}
+          />
+        </Spin>
+      </div>
 
-      <Spin
-        spinning={isLoading}
-        tip="Loading..."
-        className="text-green-600"
-        size="large"
-        indicator={antIcon} // custom spinner
-      >
-        <Table
-          className="custom-table overflow-auto [&_.ant-pagination-item]:!border-gray-300 [&_.ant-pagination-item]:!text-gray-600 [&_.ant-pagination-item-active]:!bg-[#EBECEF] [&_.ant-pagination-item-active]:!text-white [&_.ant-pagination-prev]:!text-[#45B369] [&_.ant-pagination-next]:!text-[#EBECEF]"
-          loading={isLoading}
-          columns={columns}
-          dataSource={tableData}
-          pagination={false}
-        />
-      </Spin>
+      <Suspense fallback={<Spin size="large" />}>
+        {postModalOpen && (
+          <AddComplaint postModalOpen={postModalOpen} onClose={() => setPostModalOpen(false)} />
+        )}
+        {putModalOpen && (
+          <EditComplaintModal registerId={registerId} putModalOpen={putModalOpen} onClose={() => setputModalOpen(false)} />
+        )}
+        {isFilterModalOpen && (
+          <FiltersModal isOpen={isFilterModalOpen} onClose={() => setIsFilterModalOpen(false)} setFilterStatus={setFilterStatus} />
+        )}
+      </Suspense>
 
-      {/* Add Register Unit Modal */}
-      <AddComplaint postModalOpen={postModalOpen}
-        onClose={() => setPostModalOpen(false)} />
-      {/* Edit Register Unit Modal */}
-      <EditComplaintModal registerId={registerId} putModalOpen={putModalOpen}
-        onClose={() => setputModalOpen(false)} />
-      {/* Change Register User Password Modal */}
-      {/* <ChangePasswordModal registerId={registerId} changePasswordModal={changePasswordModal}
-        onClose={() => setChangePasswordModal(false)} /> */}
-
-        <FiltersModal   isOpen={isFilterModalOpen}
-                          onClose={() => setIsFilterModalOpen(false)}  />
     </div>
+
   );
 }
 
