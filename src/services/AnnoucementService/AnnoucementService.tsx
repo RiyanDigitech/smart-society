@@ -1,7 +1,8 @@
 import axios from "@/lib/config/axios-instance";
 import { buildUrlWithParams } from "@/lib/helpers";
 import { AnnoucementData } from "@/lib/types/annoucement";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { message, notification } from "antd";
 
  interface AnnoucementListResponse {
   data: AnnoucementData[];
@@ -33,10 +34,60 @@ const AnnoucementService = () => {
     });
   };
 
+  const useCreateAnnoucement = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: async ({ data }: { data: FormData }) => {
+        return axios.post(`/announcement`, data).then((res) => res.data);
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["annoucement"] });
+      },
+    });
+  };
+
+  const useDeleteAnnoucementById = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: async (id: number) => {
+        const response = await axios.delete(`/announcement/${id}`);
+        return response.data;
+      },
+      onSuccess: () => {
+        message.success("Annoucement Deleted successfully");
+        queryClient.invalidateQueries({ queryKey: ["annoucement"] });
+      },
+      onError: (error: any) => {
+        const message =
+          error?.response?.data?.message || "Failed to Delete Annoucement";
+        notification.error({ message });
+      },
+    });
+  };
+
+  const useUpdateAnnoucement = () => {
+      const queryClient = useQueryClient();
   
+      return useMutation({
+        mutationFn: async ({ id, data }: { id: string | number; data: any }) => {
+          return axios
+            .put(`/announcement/${id}`, data)
+            .then((res) => res.data);
+        },
+  
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["annoucement"] });
+        },
+      });
+    };
 
   return {
-    useFetchAnnoucement
+    useFetchAnnoucement,
+    useCreateAnnoucement,
+    useDeleteAnnoucementById,
+    useUpdateAnnoucement
   
   };
 };

@@ -2,9 +2,9 @@ import { message } from "antd";
 import axios from "../../lib/config/axios-instance";
 import { buildUrlWithParams } from "@/lib/helpers";
 
-export const getAllComplaints = async () => {
+export const getAllComplaints = async (complaintStatus:any , search:any) => {
   try {
-    const url = buildUrlWithParams("/complaint/get-all-complaints" , {})
+    const url = buildUrlWithParams("/complaint/get-all-complaints" , {complaintStatus , search})
     const response = await axios.get(url);
 
     if (response.status === 200) {

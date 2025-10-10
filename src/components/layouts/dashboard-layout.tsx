@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { MdDashboard } from "react-icons/md";
 import { MenuFoldOutlined, MenuUnfoldOutlined, MoneyCollectFilled, QuestionCircleOutlined, UserSwitchOutlined } from "@ant-design/icons";
+import { AlertOutlined, CarOutlined, HomeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, MoneyCollectFilled, NotificationOutlined, QuestionCircleOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
 import { MdShoppingBag } from "react-icons/md";
 import { MdReceipt } from "react-icons/md";
 import { FaUsers } from "react-icons/fa6";
 
 import { Input, Layout, Menu, theme, Dropdown, MenuProps } from "antd";
-import {  Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import "../../index.css";
 import tokenService from "@/services/token.service";
 const { Header, Sider, Content } = Layout;
@@ -91,34 +92,26 @@ const DashboardLayout = () => {
     navigate("/account-details");
   };
   // console.log(see, collapsed);
- 
-  const items: MenuProps["items"] = [
-    {
-      key: "",
-      label: (
-        <div
-          className="flex justify-center cursor-default"
-          // onClick={HomeNavigate}
-        >
-          <img src="/dp-img.jpg" className="h-10 w-10 rounded-full" alt="" />
-        </div>
-      ),
-      disabled: true,
-    },
 
-    {
-      key: "3",
-      label: (
-        <div className="">
-          <button
-            // onClick={ChangePassword}
-            className="mx-auto flex justify-center font-manrope text-xs  font-semibold"
-          >
-            Change Password
-          </button>
-        </div>
-      ),
-    },
+  const userDetails = JSON.parse(localStorage.getItem("userdetails"));
+  // console.log("userDetails:", userDetails.fullname);
+
+  const items: MenuProps["items"] = [
+
+
+    // {
+    //   key: "3",
+    //   label: (
+    //     <div className="">
+    //       <button
+    //         // onClick={ChangePassword}
+    //         className="mx-auto flex justify-center font-manrope text-xs  font-semibold"
+    //       >
+    //         Change Password
+    //       </button>
+    //     </div>
+    //   ),
+    // },
     {
       key: "2",
       label: (
@@ -137,7 +130,7 @@ const DashboardLayout = () => {
 
   // const { data } = useFetchTargetedAdmin();
 
-//   console.log("admin data", data?.data);
+  //   console.log("admin data", data?.data);
   return (
     <>
       {" "}
@@ -157,15 +150,15 @@ const DashboardLayout = () => {
           collapsible
         >
           {getSiderWidth() > 70 && (
-            <div className="w-full flex justify-center items-center opacity-100 h-17 ">
-              <span className="text-black-2 font-extrabold text-lg">  Smart Society </span>
-              {/* <img
+            <div className="w-full flex justify-center items-center opacity-100 h-17 p-8 mt-5 ">
+              {/* <span className="text-black-2 font-extrabold text-lg">  Smart Society </span> */}
+              <img
                 className=""
-                src={"/Logo-Container.png"}
+                src={"/logo.png"}
                 alt="logo"
                 // width={180}
                 height={10}
-              /> */}
+              />
             </div>
           )}{" "}
           {getSiderWidth() > 70 && (
@@ -177,7 +170,7 @@ const DashboardLayout = () => {
             <div className="w-full flex justify-center items-center bg-[#d4d4d4]">
               <img
                 className="py-5 h-19 w-15 object-contain"
-                src={"/service.png"}
+                src={"/logo.png"}
                 alt="logo"
               />
             </div>
@@ -196,9 +189,8 @@ const DashboardLayout = () => {
                     key: "/",
                     icon: (
                       <MdDashboard
-                        className={` ${
-                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
-                        }`}
+                        className={` ${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                          }`}
                       />
                     ),
                     label: <div className="text-[#0F172A]">Dashboard</div>,
@@ -206,10 +198,9 @@ const DashboardLayout = () => {
                   {
                     key: "/register-unit",
                     icon: (
-                      <FaUsers 
-                        className={`${
-                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
-                        }`}
+                      <FaUsers
+                        className={`${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                          }`}
                       />
                     ),
                     label: (
@@ -222,9 +213,8 @@ const DashboardLayout = () => {
                     key: "/franchise-list",
                     icon: (
                       <MdShoppingBag
-                        className={`${
-                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
-                        }`}
+                        className={`${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                          }`}
                       />
                     ),
                     label: (
@@ -314,49 +304,34 @@ const DashboardLayout = () => {
                     key: "/",
                     icon: (
                       <MdDashboard
-                        className={` ${
-                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
-                        }`}
+                        className={` ${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                          }`}
                       />
                     ),
                     label: <div className="text-[#0F172A]">Dashboard</div>,
                   },
-
-                  // {
-                  //   key: "/lead",
-                  //   icon: (
-                  //     <MdReceipt
-                  //       className={`${
-                  //         collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
-                  //       }`}
-                  //     />
-                  //   ),
-                  //   label: (
-                  //     <div className="text-[#0F172A]">Lead Management</div>
-                  //   ),
-                  // },
-                   {
+                  {
                     key: "/complaint",
                     icon: (
-                      <QuestionCircleOutlined 
-                        className={`${
-                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
-                        }`}
+                      <QuestionCircleOutlined
+                        className={`${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                          }`}
                       />
                     ),
                     label: (
                       <div className=" text-[#0F172A]">
-                       Complaint
+                        Complaint
                       </div>
                     ),
-                  },
+                  },               
+
                    {
-                    key: "/register-unit",
+                   key: "/register-unit",
+
                     icon: (
-                      <FaUsers 
-                        className={`${
-                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
-                        }`}
+                      <FaUsers
+                        className={`${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                          }`}
                       />
                     ),
                     label: (
@@ -365,13 +340,26 @@ const DashboardLayout = () => {
                       </div>
                     ),
                   },
-                   {
+                  {
+                    key: "/supplementary",
+                    icon: (
+                      <MdReceipt
+                        className={`${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                          }`}
+                      />
+                    ),
+                    label: (
+                      <div className=" text-[#0F172A]">
+                        Supplementary
+                      </div>
+                    ),
+                  },
+                  {
                     key: "/visitors",
                     icon: (
                       <MdReceipt
-                        className={`${
-                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
-                        }`}
+                        className={`${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                          }`}
                       />
                     ),
                     label: (
@@ -380,13 +368,12 @@ const DashboardLayout = () => {
                       </div>
                     ),
                   },
-                   {
+                  {
                     key: "/staff",
                     icon: (
-                      <MdReceipt
-                        className={`${
-                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
-                        }`}
+                      <UserOutlined
+                        className={`${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                          }`}
                       />
                     ),
                     label: (
@@ -395,21 +382,22 @@ const DashboardLayout = () => {
                       </div>
                     ),
                   },
-                   {
+                  {
                     key: "/emergency",
                     icon: (
-                      <MdReceipt
-                        className={`${
-                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
-                        }`}
+                      <AlertOutlined
+                        className={`${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                          }`}
                       />
                     ),
                     label: (
                       <div className=" text-[#0F172A]">
-                        Emergency
+                      Emergency
                       </div>
                     ),
                   },
+                  
+                
                    {
                     key: "/community",
                     icon: (
@@ -439,7 +427,7 @@ const DashboardLayout = () => {
                   {
                     key: "/vehicle",
                     icon: (
-                      <MdReceipt
+                      <CarOutlined
                         className={`${
                           collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
                         }`}
@@ -455,7 +443,7 @@ const DashboardLayout = () => {
                          {
                     key: "/annoucement",
                     icon: (
-                      <MdReceipt
+                      <NotificationOutlined 
                         className={`${
                           collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
                         }`}
@@ -463,6 +451,32 @@ const DashboardLayout = () => {
                     ),
                     label: (
                       <div className="text-[#0F172A]">Annoucement</div>
+                    ),
+                  },
+                  {
+                    key: "/renovation",
+                    icon: (
+                      <HomeOutlined  
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className="text-[#0F172A]">Renovation</div>
+                    ),
+                  },
+                  {
+                    key: "/domesticstaff",
+                    icon: (
+                      <TeamOutlined 
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className="text-[#0F172A]">Domestic Staff</div>
                     ),
                   },
 
@@ -513,9 +527,8 @@ const DashboardLayout = () => {
               </div>
               <div
                 onClick={handleButtonClick} // Add navigation here
-                className={`flex items-center mt-8 mx-auto   w-10/12 p-3 cursor-pointer ${
-                  currentPage === "Account Details" ? "bg-[#e2e8f0]" : ""
-                }`}
+                className={`flex items-center mt-8 mx-auto   w-10/12 p-3 cursor-pointer ${currentPage === "Account Details" ? "bg-[#e2e8f0]" : ""
+                  }`}
               >
                 <span className="ml-0">
                   <img src="man.png" alt="" />
@@ -610,30 +623,37 @@ const DashboardLayout = () => {
                   ""
                 )} */}
 
-               
+
               </div>
-               <Dropdown className=" " menu={{ items }} placement="top" arrow>
-                  <div className="flex items-center cursor-pointer">
-                    <div>
+              <Dropdown className=" " menu={{ items }} placement="top" arrow>
+                <div className="flex items-center cursor-pointer">
+                  <div>
+                    {userDetails?.image ? (
                       <img
-                        src="/dp-img.jpg"
-                        className="rounded-full h-10 w-10"
-                        alt="img"
+                        src={userDetails.image}
+                        className="rounded-full h-10 w-10 object-cover"
+                        alt="user"
                       />
-                    </div>
-                    <div className="leading-5 ml-2">
-                      <div className="font-bold">{
-                    //   data?.data?.username ||
-                       "Qazi Nauman"}</div>
-                      <div className={`${see ? "flex" : "hidden"}`}>
-                        {
-                        // data?.data?.email.slice(0, 10) || 
-                        "Admin"
-                        }
+                    ) : (
+                      <div className="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center text-white font-bold text-lg">
+                        {userDetails?.fullname
+                          ? userDetails.fullname.charAt(0).toUpperCase()
+                          : "U"}
                       </div>
+                    )}
+                  </div>
+
+                  <div className="leading-5 ml-2">
+                    <div className="font-bold">
+                      {userDetails?.fullname || "Unknown User"}
+                    </div>
+                    <div className={`${see ? "flex" : "hidden"}`}>
+                      {userDetails?.role || "Unknown Role"}
                     </div>
                   </div>
-                </Dropdown>
+                </div>
+
+              </Dropdown>
             </div>
           </Header>
           <Content
@@ -650,7 +670,7 @@ const DashboardLayout = () => {
           </Content>{" "}
         </Layout>
       </Layout>{" "}
-     
+
     </>
   );
 };

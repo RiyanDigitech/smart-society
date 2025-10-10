@@ -22,7 +22,7 @@ const RegisterUnitDetailPage = () => {
 
   // Stats Datails
 
-  const {data : statsDetail} = useQuery({
+  const { data: statsDetail } = useQuery({
     queryKey: ["stats", id],
     queryFn: () => getStatsRegisterUsersbyId(id),
   })
@@ -45,7 +45,7 @@ const RegisterUnitDetailPage = () => {
       <Spin
         spinning={isLoading}
         tip="Loading..."
-        className="text-green-600"
+        className="text-green-600 flex items-center justify-center h-screen"
         size="large"
         indicator={antIcon}
       >
@@ -105,7 +105,7 @@ const RegisterUnitDetailPage = () => {
               )}
             </Card>
 
-             <Card
+            <Card
               title="Unit Stats Details"
               bordered={false}
               className="shadow-md rounded-lg mt-6"
@@ -118,7 +118,7 @@ const RegisterUnitDetailPage = () => {
                 <Descriptions.Item label="Total Vehicles">{statsData?.totalVehicles}</Descriptions.Item>
                 <Descriptions.Item label="Total Visitors">{statsData?.totalVisitors}</Descriptions.Item>
                 <Descriptions.Item label="User Id">{statsData?.userId}</Descriptions.Item>
-                
+
               </Descriptions>
             </Card>
           </div>
