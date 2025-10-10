@@ -117,12 +117,12 @@ const UpdateAnnouncement = ({ open, onClose, userData }: UpdateAnnouncementModal
         <div className="">
           <div>
             <label className="text-[16px] font-semibold ">Image</label>
-            <div className="relative w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-gray-200 flex items-center justify-center">
+            <div className="relative w-32 h-32 sm:w-36 sm:h-36 rounded-lg bg-gray-200 flex items-center justify-center ">
               {image ? (
                 <img
                   src={URL.createObjectURL(image)}
                   alt="Preview"
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-full object-cover rounded-lg "
                 />
               ) : existingImage ? (
                 <img
