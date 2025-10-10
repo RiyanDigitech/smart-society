@@ -5,11 +5,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const ExpenseService = () => {
      const useGetExpense = (
-   page? :number, pageSize?:number ) => {
+   page? :number, pageSize?:number, startDate?: string, endDate?: string ) => {
   async function fetchExpense() {
     const url = buildUrlWithParams("/expense", {
       page,
       pageSize,
+      startDate,
+      endDate,
     });
     const res = await axios.get(url);
     return res.data; // { success, count, data: [...] }
@@ -17,7 +19,7 @@ const ExpenseService = () => {
 
   return useQuery({
     queryFn: fetchExpense,
-    queryKey: ["expense", {  page, pageSize }],
+    queryKey: ["expense", {  page, pageSize, startDate, endDate  }],
     retry: 0,
     refetchOnWindowFocus: false,
   });

@@ -1,32 +1,40 @@
-import { Button, Dropdown, Input, Menu, message, Modal, Select, Spin, Table, Tag } from "antd";
+import { Button, Dropdown, Menu, message, Modal, Spin, Table } from "antd";
 import {
   DeleteOutlined,
+  DownloadOutlined,
   EditOutlined,
-  EyeOutlined,
   LoadingOutlined,
   MoreOutlined,
-  PlusOutlined,
-  SearchOutlined,
 } from "@ant-design/icons";
+import { DatePicker } from "antd";
 import { useState } from "react";
 
 import ExpenseService from "@/services/expenseService/ExpenseService";
 import ExpenseModal from "./ExpenseModal";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import Summary from "./Summary";
 
+const { RangePicker } = DatePicker;
 function ExpenseTable() {
   const [open, setOpen] = useState(false);
   const [editingExpense, setEditingExpense] = useState<any | null>(null);
   // pagination state
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const { useGetExpense, useGetSummary, useDeleteExpense } = ExpenseService();
+  const [filterRange, setFilterRange] = useState<[string | undefined, string | undefined]>([undefined, undefined]);
+  const [appliedRange, setAppliedRange] = useState<[string | undefined, string | undefined]>([undefined, undefined]);
 
-  const { data:expense, isLoading } = useGetExpense( page, pageSize);
-  const { data:summary, isPending } = useGetSummary();
-  const summaryData = summary?.data || {};
+  const startDate = appliedRange[0];
+  const endDate = appliedRange[1];
 
-
+  const { useGetExpense, useDeleteExpense } = ExpenseService();
+  const { data:expense, isLoading } = useGetExpense( page, pageSize, startDate, endDate);
   const deleteExpense = useDeleteExpense();
+
+   const handleApplyFilter = () => {
+    setAppliedRange(filterRange);
+  };
 
 const handleDelete = (id: number, callbacks?: any) => {
   if (!id) return;
@@ -51,6 +59,73 @@ const handleDelete = (id: number, callbacks?: any) => {
   );
 };
 
+const handleDownloadPDF = () => {
+  const doc = new jsPDF();
+
+  doc.setFontSize(16);
+  doc.text("Expense Report", 14, 15);
+
+  // Table columns
+  const columns = [
+    { header: "ID", dataKey: "id" },
+    { header: "Amount", dataKey: "expenseAmount" },
+    { header: "Purpose", dataKey: "purpose" },
+    { header: "Date", dataKey: "Date" },
+    {
+      header: "Created At",
+      dataKey: "createdAt",
+    },
+    {
+      header: "Updated At",
+      dataKey: "updatedAt",
+    },
+  ];
+
+  // Prepare table rows
+  const tableData = expense?.data?.expenses?.map((item: any) => ({
+    id: item.id,
+    expenseAmount: item.expenseAmount,
+    purpose: item.purpose,
+    Date: item.Date,
+    createdAt: new Date(item.createdAt).toLocaleString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    }),
+    updatedAt: new Date(item.updatedAt).toLocaleString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    }),
+  }));
+
+  // Generate PDF table
+  autoTable(doc, {
+    startY: 25,
+    head: [columns.map((c) => c.header)],
+    body: tableData.map((row:any) =>
+      columns.map((c) => row[c.dataKey as keyof typeof row])
+    ),
+    styles: {
+      fontSize: 10,
+      cellPadding: 3,
+    },
+    headStyles: {
+      fillColor: [22, 163, 74], // green
+      textColor: 255,
+      halign: "center",
+    },
+  });
+
+  doc.save("Expense_Report.pdf");
+};
+
 
   const columns = [
     {
@@ -65,17 +140,46 @@ const handleDelete = (id: number, callbacks?: any) => {
       key: "expenseAmount",
     },
     {
-    title: "Payslip",
-    dataIndex: "payslip",
-    key: "payslip",
-    render: (url: string) => (
-      <img
-        src={url}
-        alt="Exhibitor"
-        className="w-16 h-16 object-cover rounded-md border"
-      />
-    ),
-  },
+  title: "Payslip",
+  dataIndex: "payslip",
+  key: "payslip",
+  render: (url: string) => (
+    <div className="flex justify-center">
+      {url ? (
+        <img
+          src={url}
+          alt="Payslip"
+          className="w-16 h-16 object-cover rounded-md border cursor-pointer"
+          onClick={() => {
+            Modal.info({
+              title: "Payslip Preview",
+              centered: true,
+              width: "auto",
+              content: (
+                <img
+                  src={url}
+                  alt="Payslip"
+                  className="max-w-full max-h-[80vh] object-contain cursor-zoom-in"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const modal = window.open(url, "_blank");
+                    if (modal) modal.focus();
+                  }}
+                />
+              ),
+              okButtonProps: {
+                className: "bg-green-600 text-white hover:!bg-green-700",
+              },
+            });
+          }}
+        />
+      ) : (
+        <span className="text-gray-400 text-sm">No Image</span>
+      )}
+    </div>
+  ),
+},
+
     {
       title: "Purpose",
       dataIndex: "purpose",
@@ -187,73 +291,46 @@ const handleDelete = (id: number, callbacks?: any) => {
         <button className="bg-green-600 text-white py-2 px-3 rounded-lg" onClick={() => setOpen(true)}>Create Expense</button>
       </div>
         {/* ✅ Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        <div className="bg-green-50 border border-green-200 rounded-2xl p-5 shadow-sm text-center">
-          <h3 className="text-gray-600 text-sm font-medium">
-            Total Maintenance
-          </h3>
-          <p className="text-2xl font-semibold text-green-700 mt-2">
-            {isPending ? "Loading..." : summaryData.TotalMaintenanceAmount ?? 0}
-          </p>
-        </div>
-
-        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-5 shadow-sm text-center">
-          <h3 className="text-gray-600 text-sm font-medium">Total Expense</h3>
-          <p className="text-2xl font-semibold text-blue-700 mt-2">
-            {isPending ? "Loading..." : summaryData.expense ?? 0}
-          </p>
-        </div>
-
-        <div className="bg-red-50 border border-red-200 rounded-2xl p-5 shadow-sm text-center">
-          <h3 className="text-gray-600 text-sm font-medium">Balance</h3>
-          <p
-            className={`text-2xl font-semibold mt-2 ${
-              summaryData.Balance < 0 ? "text-red-600" : "text-green-600"
-            }`}
-          >
-            {isPending ? "Loading..." : summaryData.Balance ?? 0}
-          </p>
-        </div>
-      </div>
+      <Summary />
 
       {/* Top Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
         {/* Left Controls */}
-        {/* <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full md:w-auto">
-          <div className="flex items-center gap-2">
-            <span className="text-[#4B5563] font-inter">Show</span>
-            <Select
-              value={pageSize.toString()}
-              onChange={(value) => {
-                setPageSize(Number(value));
-                setPage(1); // reset to first page
-              }}
-              className="w-20 [&_.ant-select-selector]:!text-[#4B5563]"
-              options={[
-                { value: "10", label: "10" },
-                { value: "20", label: "20" },
-                { value: "50", label: "50" },
-              ]}
-            />
-          </div>
-    <Input
-            placeholder="Search"
-            className="w-full sm:w-64 !text-[15px] !font-Manrope !font-semibold text-[#6B6B6B]"
-            prefix={
-              <SearchOutlined className="text-[#6B6B6B] border-[#6B6B6B] hover:border-[#6B6B6B] pr-2" />
-            }
-          />
-         
-        </div> */}
+         {/* Date Filter */}
+  <div className="flex items-center gap-3 mb-4">
+        <RangePicker
+  allowClear
+  className="custom-green-picker"
+  placeholder={["Start Date", "End Date"]}
+  onChange={(dates, dateStrings) => {
+    if (!dates || dateStrings.every((d) => d === "")) {
+      // user clicked "clear"
+      setFilterRange([undefined, undefined]);
+      setAppliedRange([undefined, undefined]);
+      return;
+    }
+    setFilterRange([
+      dateStrings[0] || undefined,
+      dateStrings[1] || undefined,
+    ]);
+  }}
+/>
 
-        {/* Button */}
-        {/* <button
-          className="bg-primary text-sm text-white px-6 py-2 rounded-lg shadow hover:bg-primary w-full sm:w-auto"
-          onClick={() => setOpen(true)}
+        <Button
+          type="primary"
+          className="bg-green-600 hover:!bg-green-700"
+          onClick={handleApplyFilter}
         >
-          <PlusOutlined className="mr-1 !text-white text-lg m-auto" /> New
-          Exhibitor
-        </button> */}
+          Filter
+        </Button>
+      </div>
+
+        <button
+          className="flex bg-primary text-sm text-white px-6 py-2 rounded-lg shadow hover:bg-primary w-full sm:w-auto"
+          onClick={handleDownloadPDF}
+        >
+          <DownloadOutlined className="mr-1 !text-white text-lg my-auto" /><span>Download</span>
+        </button>
       </div>
 
       {/* Table */}
