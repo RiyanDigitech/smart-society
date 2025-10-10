@@ -13,12 +13,13 @@ import EmergencyTable from "@/pages/Emergency/EmergencyTable";
 import RegisterUnitDetailPage from "@/pages/RegisterUnitPages/RegisterUnitDetailPage";
 import ComplaintTable from "@/pages/ComplaintPages/ComplaintTable";
 import ComplaintDetailPage from "@/pages/ComplaintPages/ComplaintDetailPage";
+import SupplementaryTable from "@/pages/Supplementary/SupplementaryTable";
 import Expense from "@/pages/expense/Expense";
-
 import VehicleTable from "@/pages/Vehicle/VehicleTable";
 import AnnoucementTable from "@/pages/Annoucement/AnnoucementTable";
 import RenovationTable from "@/pages/Renovation/RenovationTable";
 import DomesticStaffTable from "@/pages/DomesticStaff/DomesticStaffTable";
+
 
 
 
@@ -36,12 +37,13 @@ children: [
         children: [
           { path: "/", element: <Home /> },
           { path: "/register-unit", element: <RegisterUnitTable /> },
-
           { path: "/visitors", element: <VisitorTable /> },
           { path: "/staff", element: <StaffTable /> },
           { path: "/emergency", element: <EmergencyTable /> },
+          { path: "/supplementary", element: <SupplementaryTable /> },
           { path: "/vehicle", element: <VehicleTable /> },
           { path: "/annoucement", element: <AnnoucementTable /> },
+
           { path: "/renovation", element: <RenovationTable /> },
           { path: "/domesticstaff", element: <DomesticStaffTable /> },
 
