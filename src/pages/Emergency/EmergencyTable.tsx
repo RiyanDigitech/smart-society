@@ -120,7 +120,7 @@ const EmergencyTable: React.FC = () => {
        {
       title: "Actions",
       key: "actions",
-      render: (_: any, record: any) => (
+      render: (_, record) => (
         <Dropdown
           overlay={
             <Menu>
@@ -183,9 +183,9 @@ const EmergencyTable: React.FC = () => {
           columns={columns}
           dataSource={formattedData}
           pagination={{
-            // current: currentPage,
-            // pageSize: pageSize,
-            total: data?.total || 0,
+            //current: currentPage,
+            //pageSize: pageSize,
+          total: data?.total || 0,
 
             showTotal: (total, range) =>
               `Showing ${range[0]} to ${range[1]} of ${total} entries`,

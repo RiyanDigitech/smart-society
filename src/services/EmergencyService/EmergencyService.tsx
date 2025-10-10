@@ -1,39 +1,36 @@
 import axios from "@/lib/config/axios-instance";
 import { buildUrlWithParams } from "@/lib/helpers";
-import { EmergencyData } from "@/lib/types/emergency";
 import {  useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { message, notification } from "antd";
 
- interface EmergencyListResponse {
-  data: EmergencyData[];
-  total: number;
-  page: number;
-  lastPage: number;
-}
+//  interface EmergencyListResponse {
+//   data: EmergencyData[];
+//   total: number;
+//   page: number;
+//   lastPage: number;
+// }
 
 const EmergencyService = () => {
-  const useFetchEmergency = (page?: number, pageSize?: number) => {
-    async function fetchEmergency(): Promise<EmergencyListResponse> {
-      const url = buildUrlWithParams("/emergency", { page, pageSize });
-      return axios.get(url).then((res) => {
-        const result = res.data.data;
-        return {
-          data: result || [],
-          total: result?.total || 0,
-          page: result?.page || 1,
-          lastPage: result?.lastPage || 1,
-        };
-      });
-    }
 
-    return useQuery({
-      queryKey: ["emergency", page, pageSize],
-      queryFn: fetchEmergency,
-      retry: 0,
-      refetchOnWindowFocus: false,
+  const useFetchEmergency = (
+   page? :number, pageSize?:number ) => {
+  async function fetchEmergency() {
+    const url = buildUrlWithParams("/emergency", {
+      page,
+      pageSize,
     });
-  };
+    const res = await axios.get(url);
+    return res.data; 
+  }
 
+  return useQuery({
+    queryFn: fetchEmergency,
+    queryKey: ["emergency", {  page, pageSize }],
+    retry: 0,
+    refetchOnWindowFocus: false,
+  });
+};
+  
   const useCreateEmergency = () => {
     const queryClient = useQueryClient();
 

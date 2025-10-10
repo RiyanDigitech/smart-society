@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { MdDashboard } from "react-icons/md";
-import { MenuFoldOutlined, MenuUnfoldOutlined, MoneyCollectFilled, QuestionCircleOutlined } from "@ant-design/icons";
+import { AlertOutlined, CarOutlined, HomeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, MoneyCollectFilled, NotificationOutlined, QuestionCircleOutlined, UserOutlined } from "@ant-design/icons";
 import { MdShoppingBag } from "react-icons/md";
 import { MdReceipt } from "react-icons/md";
 import { FaUsers } from "react-icons/fa6";
@@ -370,9 +370,16 @@ const DashboardLayout = () => {
                   {
                     key: "/staff",
                     icon: (
+
+                      <UserOutlined 
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+
                       <MdReceipt
                         className={`${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
                           }`}
+
                       />
                     ),
                     label: (
@@ -384,9 +391,16 @@ const DashboardLayout = () => {
                   {
                     key: "/emergency",
                     icon: (
+
+                      <AlertOutlined
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+
                       <MdReceipt
                         className={`${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
                           }`}
+
                       />
                     ),
                     label: (
@@ -409,7 +423,7 @@ const DashboardLayout = () => {
                   {
                     key: "/vehicle",
                     icon: (
-                      <MdReceipt
+                      <CarOutlined
                         className={`${
                           collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
                         }`}
@@ -425,7 +439,7 @@ const DashboardLayout = () => {
                          {
                     key: "/annoucement",
                     icon: (
-                      <MdReceipt
+                      <NotificationOutlined 
                         className={`${
                           collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
                         }`}
@@ -433,6 +447,32 @@ const DashboardLayout = () => {
                     ),
                     label: (
                       <div className="text-[#0F172A]">Annoucement</div>
+                    ),
+                  },
+                  {
+                    key: "/renovation",
+                    icon: (
+                      <HomeOutlined  
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className="text-[#0F172A]">Renovation</div>
+                    ),
+                  },
+                  {
+                    key: "/domesticstaff",
+                    icon: (
+                      <HomeOutlined  
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className="text-[#0F172A]">Domestic Staff</div>
                     ),
                   },
 
