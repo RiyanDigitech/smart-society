@@ -370,16 +370,9 @@ const DashboardLayout = () => {
                   {
                     key: "/staff",
                     icon: (
-
-                      <UserOutlined 
-                        className={`${
-                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
-                        }`}
-
-                      <MdReceipt
+                      <UserOutlined
                         className={`${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
                           }`}
-
                       />
                     ),
                     label: (
@@ -391,24 +384,19 @@ const DashboardLayout = () => {
                   {
                     key: "/emergency",
                     icon: (
-
                       <AlertOutlined
-                        className={`${
-                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
-                        }`}
-
-                      <MdReceipt
                         className={`${collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
                           }`}
-
                       />
                     ),
                     label: (
                       <div className=" text-[#0F172A]">
-                        Emergency
+                      Emergency
                       </div>
                     ),
                   },
+                  
+                
                    {
                     key: "/expenses",
                     icon: (
