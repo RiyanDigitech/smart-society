@@ -15,7 +15,7 @@ const UpdateStatusModal: React.FC<UpdateVisitorProps> = ({
 }) => {
   const { getVisitorById, updateVisitorStatus } = VisitorService();
 
-  const { data, isLoading } = getVisitorById(visitorId!); 
+  const { data, isLoading } = getVisitorById(visitorId!);
   const mutation = updateVisitorStatus;
 
   const [formData, setFormData] = useState({ visitor_status: "" });
@@ -106,4 +106,3 @@ const UpdateStatusModal: React.FC<UpdateVisitorProps> = ({
 };
 
 export default UpdateStatusModal;
-

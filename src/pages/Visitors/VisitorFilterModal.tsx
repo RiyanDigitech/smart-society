@@ -41,7 +41,12 @@ const VisitorFilterModal: React.FC<Props> = ({
       onCancel={onClose}
       className="lg:top-55"
       footer={[
-        <Button key="reset" type="default" onClick={handleReset}>
+        <Button
+          className="hover:!text-boxdark-2 hover:!border-gray-300"
+          key="reset"
+          type="default"
+          onClick={handleReset}
+        >
           Reset
         </Button>,
         <Button
@@ -54,7 +59,11 @@ const VisitorFilterModal: React.FC<Props> = ({
     >
       <Form form={form} layout="vertical">
         <Form.Item name="status" label=" Status">
-          <Select placeholder="Select Status" allowClear className="text-[#6B6B6B]  !border !border-[#D1D5DB] hover:!border-[#D1D5DB] focus:!border-[#D1D5DB]">
+          <Select
+            placeholder="Select Status"
+            allowClear
+            className="text-[#6B6B6B]  !border !border-[#D1D5DB] hover:!border-[#D1D5DB] focus:!border-[#D1D5DB]"
+          >
             <Option value="In">In</Option>
             <Option value="Out">Out</Option>
             <Option value="Pending">Pending</Option>

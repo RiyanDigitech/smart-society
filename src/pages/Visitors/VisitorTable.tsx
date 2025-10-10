@@ -29,24 +29,25 @@ const VisitorTable: React.FC = () => {
     status
   );
 
+  const visitors = data?.data?.visitor || [];
+  const total = data?.data?.total || 0;
 
-const visitors = data?.data?.visitor || []; 
-const total = data?.data?.total || 0;
-
-const formattedData: VisitorData[] = visitors.map((item, index) => ({
-  key: item.id.toString(),
-  id: item.id,
-  displayId: String(index + 1 + (currentPage - 1) * pageSize).padStart(2, "0"),
-  name: item.name,
-  nic: item.cnic,
-  phone: item.phone,
-  Noofguest: item.no_guest?.toString() ?? "",
-  purpose: item.purpose,
-  meet_time: item.meet_time?.split("T")[0] ?? "",
-  status: item.visitor_status,
-  unitNo: item.registerUnit?.unitNo || "N/A",
-}));
-
+  const formattedData: VisitorData[] = visitors.map((item, index) => ({
+    key: item.id.toString(),
+    id: item.id,
+    displayId: String(index + 1 + (currentPage - 1) * pageSize).padStart(
+      2,
+      "0"
+    ),
+    name: item.name,
+    nic: item.cnic,
+    phone: item.phone,
+    Noofguest: item.no_guest?.toString() ?? "",
+    purpose: item.purpose,
+    meet_time: item.meet_time?.split("T")[0] ?? "",
+    status: item.visitor_status,
+    unitNo: item.registerUnit?.unitNo || "N/A",
+  }));
 
   const ShowFilterModal = () => {
     setIsFilterModalOpen(true);
