@@ -10,22 +10,15 @@ import { DeleteOutlined, MoreOutlined } from "@ant-design/icons";
 
 const DomesticStaffTable: React.FC = () => {
   //const [isModalOpen, setIsModalOpen] = useState(false);
-
   //const [currentPage, setCurrentPage] = useState<number>(1);
   //const [pageSize, setPageSize] = useState<number>(5);
   const [deletingId, setDeletingId] = useState(null);
-  //const [OpenEdit, setOpenEditodal] = useState(false);
-  //const [recordId, setrecordId] = useState("");
+
  
   
   const { useGetDomesticStaff,useDeleteDomesticStaff } = DomesticStaffService();
   
   const deleteMutation = useDeleteDomesticStaff();
-
-  // const handleTableChange = (pagination: any) => {
-  //   setCurrentPage(pagination.current);
-  //   setPageSize(pagination.pageSize);
-  // };
 
  const { data, isFetching } = useGetDomesticStaff();
  console.log("domesticstaffdata",data)
@@ -42,43 +35,6 @@ const formattedData = items.map(item => ({
   createdAt: item.createdAt,
   //updatedAt: item.updatedAt,
 }));
-
-
-
-
-//   const items = data
-//     ? Array.isArray(data)
-//       ? data
-//       : [data]
-//     : [];
-
-//   const formattedData: DomesticStaffData[] = items.map((item) => ({
-//     //key: item.id.toString(),
-//     key: String(item.id ?? index),
-//     id: item.id,
-//     name: item.name,
-//     number: item.number,
-//     cnic: item.cnic,
-//     role: item.role,
-//     createdAt: item.createdAt,
-//     updatedAt: item.updatedAt,
-//   }));
-
-
-
-//   const formattedData: DomesticStaffData[] =
-//     data?.map((item, index) => ({
-//       key: item.id.toString(),
-//       id: item.id,
-  
-//       name: item.name,
-//       number:item.number,
-//       cnic:item.cnic,
-//       role:item.role,
-//       createdAt: item.createdAt,
-//       updatedAt: item.updatedAt,
-     
-//     })) || [];
 
   
   const showDeleteConfirm = (id: number) => {
@@ -102,10 +58,7 @@ const formattedData = items.map(item => ({
   const handleDelete = (id: number) => {
     deleteMutation.mutate(id);
   };
-//   const handleEdit = (record: any) => {
-//     setOpenEditodal(true);
-//     setrecordId(record);
-//   };
+
 
 
   const columns: ColumnsType<DomesticStaffData> = [
@@ -155,20 +108,7 @@ const formattedData = items.map(item => ({
           hour12: true,
         }),
     },
-    // {
-    //   title: "Updated At",
-    //   dataIndex: "updatedAt",
-    //   key: "updatedAt",
-    //   render: (text: any) =>
-    //     new Date(text).toLocaleString("en-GB", {
-    //       day: "2-digit",
-    //       month: "short",
-    //       year: "numeric",
-    //       hour: "2-digit",
-    //       minute: "2-digit",
-    //       hour12: true,
-    //     }),
-    // },
+  
   
     
        {
@@ -178,13 +118,7 @@ const formattedData = items.map(item => ({
         <Dropdown
           overlay={
             <Menu>
-              {/* <Menu.Item
-                key="edit"
-                icon={<EditOutlined />}
-                onClick={() => handleEdit(record)}
-              >
-                Edit
-              </Menu.Item> */}
+            
               <Menu.Item
                 key="delete"
                 icon={<DeleteOutlined />}
@@ -216,17 +150,7 @@ const formattedData = items.map(item => ({
           <div className=" ">
            
           </div>
-          {/* <button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-primary text-[16px] text-white px-3 py-1 rounded-lg shadow hover:bg-primary w-full md:w-auto my-auto"
-          >
-            <PlusOutlined className="mr-1 text-backgroundPrimary text-[16px] my-auto" />
-            Add Emergency
-          </button>
-          <AddEmergency
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-          /> */}
+        
         </div>
       </div>
       <Spin
@@ -250,11 +174,7 @@ const formattedData = items.map(item => ({
           className="custom-table overflow-auto [&_.ant-pagination-item]:!border-gray-300 [&_.ant-pagination-item]:!text-gray-600 [&_.ant-pagination-item-active]:!bg-primary [&_.ant-pagination-item-active>a]:!text-white [&_.ant-pagination-prev]:!text-[#45B369] [&_.ant-pagination-next]:!text-[#EBECEF]"
         />
       </Spin>
-      {/* <UpdateEmergency
-        open={OpenEdit}
-        userData={recordId}
-        onClose={() => setOpenEditodal(false)}
-      /> */}
+     
     </div>
   );
 };

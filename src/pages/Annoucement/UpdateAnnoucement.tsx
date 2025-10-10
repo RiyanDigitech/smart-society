@@ -122,13 +122,13 @@ const UpdateAnnouncement = ({ open, onClose, userData }: UpdateAnnouncementModal
                 <img
                   src={URL.createObjectURL(image)}
                   alt="Preview"
-                  className="w-full h-full object-cover rounded-full"
+                  className="w-full h-full object-cover rounded-lg"
                 />
               ) : existingImage ? (
                 <img
                   src={existingImage}
                   alt="Existing"
-                  className="w-full h-full object-cover rounded-full"
+                  className="w-full h-full object-cover rounded-lg"
                 />
               ) : (
                 <span className="text-gray-400 text-xs">Image</span>
@@ -150,30 +150,6 @@ const UpdateAnnouncement = ({ open, onClose, userData }: UpdateAnnouncementModal
               </label>
             </div>
 
-            {/* <div className="relative w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-gray-200 flex items-center justify-center">
-                          {image ? (
-                            <img
-                              src={URL.createObjectURL(image)}
-                              alt="Preview"
-                              className="w-full h-full object-cover rounded-full"
-                            />
-                          ) : (
-                            <span className="text-gray-400 text-xs">Image</span>
-                          )}
-                          <label className="absolute bottom-2 right-2 bg-[#E3FCDD] border border-green-500 rounded-full p-1 cursor-pointer hover:bg-green-50">
-                            <Camera className="w-4 h-4 text-green-600" />
-                            <input
-                              type="file"
-                              accept="image/*"
-                              className="hidden"
-                              onChange={(e) => {
-                                if (e.target.files && e.target.files[0]) {
-                                  setImage(e.target.files[0]);
-                                }
-                              }}
-                            />
-                          </label>
-                        </div> */}
           </div>
 
           <label className="text-[16px] font-semibold ">Title</label>
@@ -182,11 +158,11 @@ const UpdateAnnouncement = ({ open, onClose, userData }: UpdateAnnouncementModal
               <input
                 type="text"
                 value={title}
-                //onChange={(e) => setName(e.target.value)}
+               
 
                 onChange={(e) => {
                   const value = e.target.value;
-                  // Capitalize first letter of each word
+               
                   const formatted = value.replace(/\b\w/g, (char) =>
                     char.toUpperCase()
                   );
@@ -197,21 +173,7 @@ const UpdateAnnouncement = ({ open, onClose, userData }: UpdateAnnouncementModal
               />
             </div>
           </div>
-          {/* <label className="block text-gray-600 mb-1">Name</label>
-          <Input
-            type="text"
-            value={name}
-            onChange={(e) => {
-                const value = e.target.value;
-                // Capitalize first letter of each word
-                const formatted = value.replace(/\b\w/g, (char) =>
-                  char.toUpperCase()
-                );
-                setName(formatted);
-              }}
-            //onChange={(e) => setName(e.target.value)}
-            className="flex-1 !border-[#D1D5DB] hover:!border-[#D1D5DB]"
-          /> */}
+         
         </div>
 
         <div>

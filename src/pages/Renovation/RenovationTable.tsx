@@ -1,26 +1,24 @@
 import React, { useState } from "react";
 import { Table, Spin, Dropdown, Menu, Modal } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { DeleteOutlined, EyeOutlined, MoreOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, EyeOutlined, MoreOutlined } from "@ant-design/icons";
 import { RenovationData } from "@/lib/types/renovation";
 import RenovationService from "@/services/RenovationService/RenovationService";
 import AddRenovation from "./AddRenovation";
+import EditRenovationStatus from "./EditRenovationStatus";
 
 const RenovationTable: React.FC = () => {
   //const [currentPage, setCurrentPage] = useState<number>(1);
   //const [pageSize, setPageSize] = useState<number>(5);
   const [deletingId, setDeletingId] = useState(null);
   const [OpenEdit, setOpenEditodal] = useState(false);
+  const [statusModal, setStatusModal] = useState(false);
   const [recordId, setrecordId] = useState("");
+  const [selectedRecord, setSelectedRecord] = useState<any>(null);
 
   const { useFetchRenovation, useDeleteRenovationById } = RenovationService();
 
   const deleteMutation = useDeleteRenovationById();
-
-  // const handleTableChange = (pagination: any) => {
-  //   setCurrentPage(pagination.current);
-  //   setPageSize(pagination.pageSize);
-  // };
 
   const { data, isFetching } = useFetchRenovation();
   console.log("RenovationData", data);
@@ -40,6 +38,7 @@ const RenovationTable: React.FC = () => {
       contractorName: item.contractorName,
       contractorNumber: item.contractorNumber,
       signature: item.signature,
+      image: item.image,
       renovationStatus: item.renovationStatus,
       personName: item.personName,
       personNumber: item.personNumber,
@@ -72,6 +71,12 @@ const RenovationTable: React.FC = () => {
     setrecordId(record.id);
   };
 
+  const handleUpdateStatus = (record: any) => {
+    setSelectedRecord(record);
+    setrecordId(record.id);
+    setStatusModal(true);
+  };
+
   const columns: ColumnsType<RenovationData> = [
     {
       title: "ID",
@@ -80,6 +85,14 @@ const RenovationTable: React.FC = () => {
       width: 70,
       render: (sl) => <span className="text-[#4b5563] ">{sl}</span>,
     },
+     {
+      title: "UserId",
+      dataIndex: "userId",
+      key: "userId",
+      width: 70,
+      render: (userId) => <span className="text-[#4b5563] ">{userId}</span>,
+    },
+
     {
       title: "ApplicantName",
       dataIndex: "applicantName",
@@ -140,14 +153,84 @@ const RenovationTable: React.FC = () => {
         <span className="text-[#4b5563] ">{renovationStatus}</span>
       ),
     },
+
     {
-      title: "UserId",
-      dataIndex: "userId",
-      key: "userId",
-      width: 70,
-      render: (userId) => <span className="text-[#4b5563] ">{userId}</span>,
+      title: "Signature",
+      dataIndex: "signature",
+      key: "signature",
+      align: "center",
+      render: (url: string) =>
+        url ? (
+          <img
+            src={url}
+            alt="signature"
+            className="w-12 h-12 object-cover rounded-md border cursor-pointer hover:scale-105 transition-transform"
+            onClick={() => {
+              Modal.info({
+                title: "Signature Preview",
+                centered: true,
+                width: "auto",
+                content: (
+                  <img
+                    src={url}
+                    alt="signature"
+                    className="max-w-full max-h-[80vh] object-contain cursor-zoom-in"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const modal = window.open(url, "_blank");
+                      if (modal) modal.focus();
+                    }}
+                  />
+                ),
+                okButtonProps: {
+                  className: "bg-green-600 text-white hover:!bg-green-700",
+                },
+              });
+            }}
+          />
+        ) : (
+          <span className="text-gray-400 text-sm">No Image</span>
+        ),
     },
 
+    {
+    title: "Image",
+    dataIndex: "image",
+    key: "image",
+    align: "center",
+    render: (url: string) =>
+      url ? (
+        <img
+          src={url}
+          alt="img"
+          className="w-12 h-12 object-cover rounded-md border cursor-pointer hover:scale-105 transition-transform"
+          onClick={() => {
+            Modal.info({
+              title: "Image Preview",
+              centered: true,
+              width: "auto",
+              content: (
+                <img
+                  src={url}
+                  alt="img"
+                  className="max-w-full max-h-[80vh] object-contain cursor-zoom-in"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const modal = window.open(url, "_blank");
+                    if (modal) modal.focus();
+                  }}
+                />
+              ),
+              okButtonProps: {
+                className: "bg-green-600 text-white hover:!bg-green-700",
+              },
+            });
+          }}
+        />
+      ) : (
+        <span className="text-gray-400 text-sm">No Image</span>
+      ),
+  },
     {
       title: "PersonName",
       dataIndex: "personName",
@@ -177,6 +260,13 @@ const RenovationTable: React.FC = () => {
         <Dropdown
           overlay={
             <Menu>
+              <Menu.Item
+                key="status"
+                icon={<EditOutlined />}
+                onClick={() => handleUpdateStatus(record)}
+              >
+                update status
+              </Menu.Item>
               <Menu.Item
                 key="edit"
                 icon={<EyeOutlined />}
@@ -237,6 +327,15 @@ const RenovationTable: React.FC = () => {
         isOpen={OpenEdit}
         renovationId={recordId}
         onClose={() => setOpenEditodal(false)}
+      />
+      <EditRenovationStatus
+        isOpen={statusModal}
+        renovationId={recordId}
+        userData={selectedRecord}
+        onClose={() => {
+          setStatusModal(false);
+          setSelectedRecord(null);
+        }}
       />
     </div>
   );

@@ -109,14 +109,53 @@ const AnnoucementTable: React.FC = () => {
       title: "Image",
       dataIndex: "image",
       key: "image",
-      render: (url: string) => (
-        <img
-          src={url}
-          alt="img"
-          className="w-10 h-10 object-cover rounded-full"
-        />
-      ),
+      align: "center",
+      render: (url: string) =>
+        url ? (
+          <img
+            src={url}
+            alt="image"
+            className="w-12 h-12 object-cover rounded-md border cursor-pointer hover:scale-105 transition-transform"
+            onClick={() => {
+              Modal.info({
+                title: "Image Preview",
+                centered: true,
+                width: "auto",
+                content: (
+                  <img
+                    src={url}
+                    alt="Image"
+                    className="max-w-full max-h-[80vh] object-contain cursor-zoom-in"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const modal = window.open(url, "_blank");
+                      if (modal) modal.focus();
+                    }}
+                  />
+                ),
+                okButtonProps: {
+                  className: "bg-green-600 text-white hover:!bg-green-700",
+                },
+              });
+            }}
+          />
+        ) : (
+          <span className="text-gray-400 text-sm">No Image</span>
+        ),
     },
+
+    // {
+    //   title: "Image",
+    //   dataIndex: "image",
+    //   key: "image",
+    //   render: (url: string) => (
+    //     <img
+    //       src={url}
+    //       alt="img"
+    //       className="w-10 h-10 object-cover rounded-full"
+    //     />
+    //   ),
+    // },
     {
       title: "AnnouncementStatus",
       dataIndex: "announcementStatus",

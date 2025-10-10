@@ -3,9 +3,6 @@ import { Button, message, Modal } from "antd";
 import { useState } from "react";
 import { Camera } from "lucide-react";
 import AnnoucementService from "@/services/AnnoucementService/AnnoucementService";
-//import EmergencyService from "@/services/EmergencyService/EmergencyService";
-
-//import StaffService from "@/services/StaffService/StaffService";
 
 interface AnnoucementModalProps {
   isOpen: boolean;
@@ -27,7 +24,7 @@ const AddAnnoucement = ({ isOpen, onClose }: AnnoucementModalProps) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [image, setImage] = useState<File | null>(null);
-  //const [phone, setPhone] = useState("");
+
 
   const handleSave = () => {
     const formData = new FormData();
@@ -93,12 +90,12 @@ const AddAnnoucement = ({ isOpen, onClose }: AnnoucementModalProps) => {
         <div className=" mt-6">
           <div className="space-y-2 font-poppins">
             <label className="text-[16px] font-semibold ">Image</label>
-            <div className="relative w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-gray-200 flex items-center justify-center">
+            <div className="relative w-32 h-32 sm:w-36 sm:h-36 rounded-lg bg-gray-200 flex items-center justify-center">
               {image ? (
                 <img
                   src={URL.createObjectURL(image)}
                   alt="Preview"
-                  className="w-full h-full object-cover rounded-full"
+                  className="w-full h-full object-cover rounded-lg"
                 />
               ) : (
                 <span className="text-gray-400 text-xs">Image</span>
@@ -117,38 +114,6 @@ const AddAnnoucement = ({ isOpen, onClose }: AnnoucementModalProps) => {
                 />
               </label>
             </div>
-
-            {/* 
-             <div className="relative w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-gray-200 flex items-center justify-center">
-                         {image  (
-                           <img
-                             src={URL.createObjectURL(image)}
-                             alt="Preview"
-                             className="w-full h-full object-cover rounded-full"
-                           />
-                        //  ) : editingExpense?.payslip ? (
-                        //    <img
-                        //      src={editingExpense.payslip}
-                        //      alt="Existing"
-                        //      className="w-full h-full object-cover rounded-full"
-                        //    />
-                         ) : (
-                           <span className="text-gray-400 text-xs">Image</span>
-                         )}
-                         <label className="absolute bottom-2 right-2 bg-[#E3FCDD] border border-green-500 rounded-full p-1 cursor-pointer hover:bg-green-50">
-                           <Camera className="w-4 h-4 text-green-600" />
-                           <input
-                             type="file"
-                             accept="image/*"
-                             className="hidden"
-                             onChange={(e) => {
-                               if (e.target.files && e.target.files[0]) {
-                                 setImage(e.target.files[0]);
-                               }
-                             }}
-                           />
-                         </label>
-                       </div> */}
 
             <label className="text-[16px] font-semibold ">Title</label>
             <div className="flex items-center border rounded-md px-3 py-2">
@@ -180,13 +145,13 @@ const AddAnnoucement = ({ isOpen, onClose }: AnnoucementModalProps) => {
               value={body}
               onChange={(e) => {
                     const value = e.target.value;
-                    // Capitalize first letter of each word
+                   
                     const formatted = value.replace(/\b\w/g, (char) =>
                       char.toUpperCase()
                     );
                     setBody(formatted);
                   }}
-              //onChange={(e) => setBody(e.target.value)}
+      
               placeholder="Enter Body"
               className="w-full border rounded-lg p-2 text-sm text-gray-700 bg-white shadow-sm outline-none resize-none"
             />
