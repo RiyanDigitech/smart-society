@@ -43,7 +43,7 @@ function ComplaintTable() {
     },
 
     {
-      title: 'unitNo',
+      title: 'Apartment No',
       dataIndex: 'unitNo',
       key: 'unitNo',
     },
@@ -273,6 +273,11 @@ function ComplaintTable() {
             columns={columns}
             dataSource={tableData}
             pagination={false}
+            // scroll={{ y: 600 }}
+            onScroll={(e) => {
+    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if (bottom && !isFetchingNextPage) fetchNextPage();
+  }}
           />
         </Spin>
       </div>
