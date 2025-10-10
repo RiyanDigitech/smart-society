@@ -93,10 +93,10 @@ const EditRenovationStatus = ({ isOpen, onClose, userData,renovationId }: Renova
                 className="flex-1 outline-none text-sm"
               >
                 <option value="">Select Status</option>
-                 <option value="Pending">Pending</option>
+                 {/* <option value="Pending">Pending</option>
                 <option value="Payment Awaited">Payment Awaited</option>
                 <option value="Approval Awaited">Approval Awaited</option>
-                <option value="Proposal Awaited">Proposal Awaited</option>
+                <option value="Proposal Awaited">Proposal Awaited</option> */}
                 <option value="Approved">Approved</option>
                 <option value="Rejected">Rejected</option>
               </select>
