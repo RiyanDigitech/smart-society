@@ -17,8 +17,12 @@ import SupplementaryTable from "@/pages/Supplementary/SupplementaryTable";
 import Expense from "@/pages/expense/Expense";
 import VehicleTable from "@/pages/Vehicle/VehicleTable";
 import AnnoucementTable from "@/pages/Annoucement/AnnoucementTable";
+
+import Community from "@/pages/community/Community";
+
 import RenovationTable from "@/pages/Renovation/RenovationTable";
 import DomesticStaffTable from "@/pages/DomesticStaff/DomesticStaffTable";
+
 
 
 
@@ -52,6 +56,7 @@ children: [
           { path: "/complaint-details/:id", element: <ComplaintDetailPage /> },
           { path: "/complaint", element: <ComplaintTable /> },
           { path: "/expenses", element: <Expense /> },
+          { path: "/community", element: <Community /> },
 
         ],
       },

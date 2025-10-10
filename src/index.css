@@ -174,3 +174,26 @@ ul.ant-menu-vertical > li.ant-menu-item-only-child {
 .ant-spin .ant-spin-dot-item {
   background-color: #45b369 !important; 
 }
+
+/* ✅ Selected dates (start & end) */
+.custom-green-picker .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+.custom-green-picker .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner,
+.custom-green-picker .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
+  background-color: #16a34a !important; /* green */
+  color: #fff !important;
+  border-radius: 50% !important;
+}
+
+/* ✅ Hover effect (single day hover or range hover) */
+.custom-green-picker .ant-picker-cell-in-view.ant-picker-cell-inner:hover,
+.custom-green-picker .ant-picker-cell-in-view.ant-picker-cell-range-hover-start .ant-picker-cell-inner,
+.custom-green-picker .ant-picker-cell-in-view.ant-picker-cell-range-hover-end .ant-picker-cell-inner {
+  background-color: #22c55e !important; /* lighter green */
+  color: #fff !important;
+  border-radius: 50% !important;
+}
+
+/* ✅ Middle range background (between start & end) */
+.custom-green-picker .ant-picker-cell-in-view.ant-picker-cell-in-range::before {
+  background-color: #bbf7d0 !important; /* light green shade */
+}

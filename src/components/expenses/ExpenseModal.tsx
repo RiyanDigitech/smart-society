@@ -116,15 +116,15 @@ const ExpenseModal = ({ open, onClose, editingExpense }: ExpenseModalProps) => {
       ]}
       centered
     >
-      <div className="p-6 flex flex-col lg:flex-row gap-8 items-start w-full lg:max-w-4xl">
+      <div className="p-6 flex flex-col  gap-8 items-start w-full lg:max-w-4xl">
         {/* Image Upload */}
         <div className="flex flex-col items-center gap-4 w-full lg:w-1/4">
-          <div className="relative w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-gray-200 flex items-center justify-center">
+          <div className="relative w-32 h-32 sm:w-36 sm:h-36 rounded bg-gray-200 flex items-center justify-center">
             {payslip ? (
               <img
                 src={URL.createObjectURL(payslip)}
                 alt="Preview"
-                className="w-full h-full object-cover rounded-full"
+                className="w-full h-full object-cover rounded"
               />
             ) : editingExpense?.payslip ? (
               <img
@@ -157,8 +157,13 @@ const ExpenseModal = ({ open, onClose, editingExpense }: ExpenseModalProps) => {
             <label className="block text-xs font-semibold mb-1">Purpose</label>
             <input
               type="text"
+              placeholder="Please Enter Purpose"
               value={purpose}
-              onChange={(e) => setPurpose(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                const formatted = value.replace(/\b\w/g, (char) => char.toUpperCase());
+                setPurpose(formatted);
+              }}
               className="w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
             />
             <Pencil className="absolute right-2.5 top-2.5 w-4 h-4 text-gray-400" />
@@ -168,6 +173,7 @@ const ExpenseModal = ({ open, onClose, editingExpense }: ExpenseModalProps) => {
             <label className="block text-xs font-semibold mb-1">Amount</label>
             <input
               type="number"
+              placeholder="Please Enter Amount"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               className="w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"

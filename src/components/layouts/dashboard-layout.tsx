@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { MdDashboard } from "react-icons/md";
+import { MenuFoldOutlined, MenuUnfoldOutlined, MoneyCollectFilled, QuestionCircleOutlined, UserSwitchOutlined } from "@ant-design/icons";
 import { AlertOutlined, CarOutlined, HomeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, MoneyCollectFilled, NotificationOutlined, QuestionCircleOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
 import { MdShoppingBag } from "react-icons/md";
 import { MdReceipt } from "react-icons/md";
@@ -397,6 +398,21 @@ const DashboardLayout = () => {
                   },
                   
                 
+                   {
+                    key: "/community",
+                    icon: (
+                      <UserSwitchOutlined
+                        className={`${
+                          collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
+                        }`}
+                      />
+                    ),
+                    label: (
+                      <div className=" text-[#0F172A]">
+                        Community Posts
+                      </div>
+                    ),
+                  },
                    {
                     key: "/expenses",
                     icon: (
