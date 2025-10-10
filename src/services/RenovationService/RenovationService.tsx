@@ -74,10 +74,38 @@ const RenovationService = () => {
     });
   };
 
+   const useUpdateRenovationStatus = () => {
+     const queryClient = useQueryClient();
+
+     return useMutation({
+       mutationFn: async ({
+         id,
+         renovationId,
+         renovationStatus,
+       }: {
+         id: number;
+         renovationId: number;
+         renovationStatus: string;
+       }) => {
+         return axios
+           .post("/renovation/status-only", {
+             id,
+             renovationId,
+             renovationStatus,
+           })
+           .then((res) => res.data);
+       },
+       onSuccess: () => {
+         queryClient.invalidateQueries({ queryKey: ["renovation"] });
+       },
+     });
+   };
+
   return {
     useFetchRenovation,
     useDeleteRenovationById,
     useCreateRenovation,
+    useUpdateRenovationStatus
   };
 };
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { MdDashboard } from "react-icons/md";
-import { AlertOutlined, CarOutlined, HomeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, MoneyCollectFilled, NotificationOutlined, QuestionCircleOutlined, UserOutlined } from "@ant-design/icons";
+import { AlertOutlined, CarOutlined, HomeOutlined, MenuFoldOutlined, MenuUnfoldOutlined, MoneyCollectFilled, NotificationOutlined, QuestionCircleOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
 import { MdShoppingBag } from "react-icons/md";
 import { MdReceipt } from "react-icons/md";
 import { FaUsers } from "react-icons/fa6";
@@ -466,7 +466,7 @@ const DashboardLayout = () => {
                   {
                     key: "/domesticstaff",
                     icon: (
-                      <HomeOutlined  
+                      <TeamOutlined 
                         className={`${
                           collapsed || !see ? "ml-1 h-[20px] w-[20px] mr-5" : ""
                         }`}
