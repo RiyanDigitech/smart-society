@@ -254,45 +254,91 @@ const RenovationTable: React.FC = () => {
       render: (status) => <span className="text-[#4b5563] ">{status}</span>,
     },
     {
-      title: "Actions",
-      key: "actions",
-      render: (_, record) => (
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item
-                key="status"
-                icon={<EditOutlined />}
-                onClick={() => handleUpdateStatus(record)}
-              >
-                update status
-              </Menu.Item>
-              <Menu.Item
-                key="edit"
-                icon={<EyeOutlined />}
-                onClick={() => handleEdit(record)}
-              >
-                View More
-              </Menu.Item>
-              <Menu.Item
-                key="delete"
-                icon={<DeleteOutlined />}
-                danger
-                onClick={() => showDeleteConfirm(Number(record.id))}
-                disabled={deletingId === record.id && deleteMutation.isLoading}
-              >
-                {deletingId === record.id && deleteMutation.isLoading
-                  ? "Deleting..."
-                  : "Delete"}
-              </Menu.Item>
-            </Menu>
-          }
-          trigger={["click"]}
+  title: "Actions",
+  key: "actions",
+  render: (_, record) => {
+    const menuItems = [];
+
+    // Show View More + Delete when status = "Payment Awaited"
+    if (record.renovationStatus === "Proposal Awaited") {
+      menuItems.push(
+        <Menu.Item
+          key="view"
+          icon={<EyeOutlined />}
+          onClick={() => handleEdit(record)}
         >
-          <MoreOutlined className="text-lg cursor-pointer" />
-        </Dropdown>
-      ),
-    },
+          View More
+        </Menu.Item>,
+        <Menu.Item
+          key="delete"
+          icon={<DeleteOutlined />}
+          danger
+          onClick={() => showDeleteConfirm(Number(record.id))}
+          disabled={deletingId === record.id && deleteMutation.isLoading}
+        >
+          {deletingId === record.id && deleteMutation.isLoading
+            ? "Deleting..."
+            : "Delete"}
+        </Menu.Item>
+      );
+    }
+
+    // Show Update Status + Delete when status = "Approval Awaited" or "Rejected"
+    if (
+      record.renovationStatus === "Approval Awaited" 
+    ) {
+      menuItems.push(
+        <Menu.Item
+          key="status"
+          icon={<EditOutlined />}
+          onClick={() => handleUpdateStatus(record)}
+        >
+          Update Status
+        </Menu.Item>,
+        <Menu.Item
+          key="delete"
+          icon={<DeleteOutlined />}
+          danger
+          onClick={() => showDeleteConfirm(Number(record.id))}
+          disabled={deletingId === record.id && deleteMutation.isLoading}
+        >
+          {deletingId === record.id && deleteMutation.isLoading
+            ? "Deleting..."
+            : "Delete"}
+        </Menu.Item>
+      );
+    }
+
+    // Show only Delete when status = "Approved"
+    if (record.renovationStatus === "Approved" ||
+      record.renovationStatus === "Rejected"
+    ) {
+      menuItems.push(
+        <Menu.Item
+          key="delete"
+          icon={<DeleteOutlined />}
+          danger
+          onClick={() => showDeleteConfirm(Number(record.id))}
+          disabled={deletingId === record.id && deleteMutation.isLoading}
+        >
+          {deletingId === record.id && deleteMutation.isLoading
+            ? "Deleting..."
+            : "Delete"}
+        </Menu.Item>
+      );
+    }
+
+    return (
+      <Dropdown
+        overlay={<Menu>{menuItems}</Menu>}
+        trigger={["click"]}
+      >
+        <MoreOutlined className="text-lg cursor-pointer" />
+      </Dropdown>
+    );
+  },
+}
+
   ];
 
   return (
