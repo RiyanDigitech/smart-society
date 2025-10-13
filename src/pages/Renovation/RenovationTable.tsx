@@ -9,7 +9,8 @@ import EditRenovationStatus from "./EditRenovationStatus";
 
 const RenovationTable: React.FC = () => {
   //const [currentPage, setCurrentPage] = useState<number>(1);
-  //const [pageSize, setPageSize] = useState<number>(5);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState<number>(5);
   const [deletingId, setDeletingId] = useState(null);
   const [OpenEdit, setOpenEditodal] = useState(false);
   const [statusModal, setStatusModal] = useState(false);
@@ -20,10 +21,13 @@ const RenovationTable: React.FC = () => {
 
   const deleteMutation = useDeleteRenovationById();
 
-  const { data, isFetching } = useFetchRenovation();
+  const { data, isFetching } = useFetchRenovation(page, pageSize);
+  
   console.log("RenovationData", data);
 
   console.log(data);
+
+  
 
   const formattedData: RenovationData[] =
     data?.data?.allRenovationForms?.map((item, index) => ({
@@ -44,6 +48,9 @@ const RenovationTable: React.FC = () => {
       personNumber: item.personNumber,
       userId: item.userId,
     })) || [];
+
+
+
 
   const showDeleteConfirm = (id: number) => {
     Modal.confirm({
@@ -355,15 +362,24 @@ const RenovationTable: React.FC = () => {
         <Table
           columns={columns}
           dataSource={formattedData}
-          pagination={false}
-          // pagination={{
-          //   // current: currentPage,
-          //   // pageSize: pageSize,
-          //   //total: data?.total || 0,
+          //pagination={false}
+          pagination={{
+            // current: currentPage,
+            // pageSize: pageSize,
+            //total: data?.total || 0,
+                current: data?.data?.page || page,
+    pageSize: pageSize,
+    total: data?.data?.total || 0,
 
-          //    showTotal: (total, range) =>
-          //      `Showing ${range[0]} to ${range[1]} of ${total} entries`,
-          // }}
+             showTotal: (total, range) =>
+               `Showing ${range[0]} to ${range[1]} of ${total} entries`,
+             onChange: (p, ps) => {
+  setPage(p);
+  setPageSize(ps);
+}
+
+          }}
+          
           //onChange={handleTableChange}
           bordered={false}
           className="custom-table overflow-auto [&_.ant-pagination-item]:!border-gray-300 [&_.ant-pagination-item]:!text-gray-600 [&_.ant-pagination-item-active]:!bg-primary [&_.ant-pagination-item-active>a]:!text-white [&_.ant-pagination-prev]:!text-[#45B369] [&_.ant-pagination-next]:!text-[#EBECEF]"

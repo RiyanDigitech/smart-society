@@ -4,36 +4,34 @@ import { RenovationData } from "@/lib/types/renovation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { message, notification } from "antd";
 
-interface RenovationListResponse {
-  data: RenovationData[];
-  total: number;
-  page: number;
-  lastPage: number;
-}
+// interface RenovationListResponse {
+//   data: RenovationData[];
+//   total: number;
+//   page: number;
+//   lastPage: number;
+// }
 
 const RenovationService = () => {
   
-  const useFetchRenovation = (page?: number, pageSize?: number) => {
-    async function fetchRenovation(): Promise<RenovationListResponse> {
-      const url = buildUrlWithParams("/renovation", { page, pageSize });
-      return axios.get(url).then((res) => {
-        const result = res.data.data;
-        return {
-          data: result || [],
-          total: result?.total || 0,
-          page: result?.page || 1,
-          lastPage: result?.lastPage || 1,
-        };
+  const useFetchRenovation = (
+     page? :number, pageSize?:number ) => {
+    async function fetchRenovation() {
+      const url = buildUrlWithParams("/renovation", {
+        page,
+        limit:pageSize,
       });
+      const res = await axios.get(url);
+      return res.data;
     }
-
+  
     return useQuery({
-      queryKey: ["renovation", page, pageSize],
       queryFn: fetchRenovation,
+      queryKey: ["renovation",  page, pageSize ],
       retry: 0,
       refetchOnWindowFocus: false,
     });
   };
+  
 
   const useDeleteRenovationById = () => {
     const queryClient = useQueryClient();
