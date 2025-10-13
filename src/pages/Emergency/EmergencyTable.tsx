@@ -13,7 +13,7 @@ import UpdateEmergency from "./UpdateEmergency";
 const EmergencyTable: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  //const [currentPage, setCurrentPage] = useState<number>(1);
+  //const [page, setPage] = useState<number>(1);
   //const [pageSize, setPageSize] = useState<number>(5);
   const [deletingId, setDeletingId] = useState(null);
   const [OpenEdit, setOpenEditodal] = useState(false);
@@ -25,7 +25,7 @@ const EmergencyTable: React.FC = () => {
   const deleteMutation = useDeleteEmergencyById();
 
   // const handleTableChange = (pagination: any) => {
-  //   setCurrentPage(pagination.current);
+  //   setPage(pagination.current);
   //   setPageSize(pagination.pageSize);
   // };
 
@@ -156,12 +156,9 @@ const EmergencyTable: React.FC = () => {
 
   return (
     <div className="p-4 bg-white rounded-[10px]">
-     
       <div className="flex flex-col md:flex-row md:items-center  gap-3 mb-4  justify-end">
         <div className="flex items-center gap-2 ">
-          <div className=" ">
-           
-          </div>
+          <div className=" "></div>
           <button
             onClick={() => setIsModalOpen(true)}
             className="bg-primary text-[16px] text-white px-3 py-1 rounded-lg shadow hover:bg-primary w-full md:w-auto my-auto"
@@ -182,14 +179,19 @@ const EmergencyTable: React.FC = () => {
         <Table
           columns={columns}
           dataSource={formattedData}
-          pagination={{
-            //current: currentPage,
-            //pageSize: pageSize,
-          total: data?.total || 0,
+          pagination={false}
+          // pagination={{
+          //   current: data?.data?.page || page,
+          //   pageSize: pageSize,
+          //   total: data?.data?.total || 0,
 
-            showTotal: (total, range) =>
-              `Showing ${range[0]} to ${range[1]} of ${total} entries`,
-          }}
+          //   showTotal: (total, range) =>
+          //     `Showing ${range[0]} to ${range[1]} of ${total} entries`,
+          //   onChange: (p, ps) => {
+          //     setPage(p);
+          //     setPageSize(ps);
+          //   },
+          // }}
           //onChange={handleTableChange}
           bordered={false}
           className="custom-table overflow-auto [&_.ant-pagination-item]:!border-gray-300 [&_.ant-pagination-item]:!text-gray-600 [&_.ant-pagination-item-active]:!bg-primary [&_.ant-pagination-item-active>a]:!text-white [&_.ant-pagination-prev]:!text-[#45B369] [&_.ant-pagination-next]:!text-[#EBECEF]"

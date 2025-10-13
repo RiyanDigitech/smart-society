@@ -17,7 +17,7 @@ const EmergencyService = () => {
   async function fetchEmergency() {
     const url = buildUrlWithParams("/emergency", {
       page,
-      pageSize,
+      limit:pageSize,
     });
     const res = await axios.get(url);
     return res.data; 
@@ -25,7 +25,7 @@ const EmergencyService = () => {
 
   return useQuery({
     queryFn: fetchEmergency,
-    queryKey: ["emergency", {  page, pageSize }],
+    queryKey: ["emergency",  page, pageSize ],
     retry: 0,
     refetchOnWindowFocus: false,
   });

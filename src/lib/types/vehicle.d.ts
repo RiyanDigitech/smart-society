@@ -6,4 +6,5 @@ export interface VehicleData {
        model: number,
        plateNo: string,
        vehicleStatus: string
+
 }

@@ -27,19 +27,22 @@ const VehicleTable: React.FC = () => {
   console.log("vehicle data", data);
 
   const formattedData: VehicleData[] =
-    data?.data.register_unit?.flatMap((unit) =>
-      unit.vehicle.map((item, index) => ({
-        key: `${unit.id}-${index}`,
-        id: unit.id, 
-        name: item.name,
-        type: item.type,
-        color: item.color,
-        model: item.model,
-        plateNo: item.plateNo,
-        vehicleStatus: item.vehicleStatus,
-      }))
-    ) || [];
-
+  Array.isArray(data?.data?.register_unit)
+    ? data.data.register_unit.flatMap((unit) =>
+        Array.isArray(unit.vehicle)
+          ? unit.vehicle.map((item, index) => ({
+              key: `${unit.id}-${index}`,
+              id: unit.id,
+              name: item.name,
+              type: item.type,
+              color: item.color,
+              model: item.model,
+              plateNo: item.plateNo,
+              vehicleStatus: item.vehicleStatus,
+            }))
+          : []
+      )
+    : [];
  
   const handleEdit = (record: any) => {
     setOpenEditodal(true);
